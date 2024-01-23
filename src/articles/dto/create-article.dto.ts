@@ -11,5 +11,5 @@ export class CreateArticleDto {
   body: string;
 
   @ApiProperty({ required: false, default: false })
-  published?: boolean;
+  published?: boolean = false;
 }
