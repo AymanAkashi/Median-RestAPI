@@ -20,7 +20,7 @@ export class ArticlesService {
   }
 
   findOne(id: number) {
-    return this.prisma.article.findUnique({ where: { id: id } });
+    return this.prisma.article.findUnique({ where: { id } });
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
@@ -31,6 +31,6 @@ export class ArticlesService {
   }
 
   remove(id: number) {
-    return this.prisma.article.delete({ where: { id: id } });
+    return this.prisma.article.delete({ where: { id } });
   }
 }
