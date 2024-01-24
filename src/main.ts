@@ -14,6 +14,7 @@ async function bootstrap() {
     .setTitle('Median')
     .setDescription('The Median API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('median')
     .build();
 
