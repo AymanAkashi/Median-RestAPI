@@ -18,10 +18,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            {/* <Navbar /> */}
-            <body className={`w-full min-h-screen ${firaSans.className}`}>
-                {children}
-            </body>
+            <Navbar />
+            <body className={` ${firaSans.className}`}>{children}</body>
         </html>
     )
 }

@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function Navbar() {
     return (
-        <div className="bg-gray-600/10 w-full h-16 flex justify-between items-center text-neutral-800 font-thin rounded-b-3xl shadow-lg">
+        <nav className="bg-gray-600/10 w-full h-16 flex justify-between items-center text-neutral-800 font-thin rounded-b-3xl shadow-lg">
             <div className="p-1 ml-1 w-14 h-14 flex justify-center items-center bg-white/50 rounded-full">
                 <Image
                     src="/assets/logo.svg"
@@ -27,6 +27,6 @@ export default function Navbar() {
                     {/* <p className='peer-hover:block hover:block hidden transition-all delay-200 duration-150'>Contact</p> */}
                 </a>
             </div>
-        </div>
+        </nav>
     )
 }
