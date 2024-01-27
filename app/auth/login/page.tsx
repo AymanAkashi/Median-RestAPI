@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client'
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
 import Image from 'next/image'
+import { useMutation } from '@tanstack/react-query'
+import { redirect } from 'next/navigation'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -22,9 +24,21 @@ export default function Page() {
             email: '',
             password: '',
         },
-        onSubmit: async ({ value }) => {
-            // Do something with form data
-            console.log(value)
+        onSubmit: async (values) => {
+            await fetch('/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values.value),
+            }).then((res) => {
+                if (res.status === 200) {
+                    alert('Login Success')
+                    window.location.href = '/home'
+                } else {
+                    alert('Login Fail')
+                }
+            })
         },
     })
 
