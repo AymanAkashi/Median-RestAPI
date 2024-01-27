@@ -12,7 +12,7 @@ const layout = ({
 
     return (
         <div className="w-full min-h-screen">
-            <Navbar />
+            {/* <Navbar /> */}
             <main className="flex justify-center items-center" style={mystyle}>
                 {children}
             </main>

@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client'
 import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
 import Image from 'next/image'
+import axios from 'axios'
+import { useMutation } from '@tanstack/react-query'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -24,8 +26,8 @@ export default function Page() {
             password: '',
         },
         onSubmit: async ({ value }) => {
-            // Do something with form data
-            console.log(value)
+            const data = await axios.post('/auth/signin', value)
+            console.log(data)
         },
     })
 
@@ -61,7 +63,7 @@ export default function Page() {
                         <form.Field
                             name="username"
                             validators={{
-                                onChange: ({ value }) =>
+                                onBlur: ({ value }) =>
                                     !value ? 'user not empty' : undefined,
                                 onChangeAsyncDebounceMs: 500,
                                 onChangeAsync: async ({ value }) => {
@@ -125,7 +127,7 @@ export default function Page() {
                         <form.Field
                             name="email"
                             validators={{
-                                onChange: ({ value }) =>
+                                onBlur: ({ value }) =>
                                     !value
                                         ? 'Email is required'
                                         : !value.includes('@')
@@ -192,7 +194,7 @@ export default function Page() {
                         <form.Field
                             name="password"
                             validators={{
-                                onChange: ({ value }) =>
+                                onBlur: ({ value }) =>
                                     !value
                                         ? 'password is required'
                                         : value.length < 8
