@@ -1,12 +1,20 @@
+'use client'
 import React from 'react'
-import Home from '@/components/Home'
 import Navbar from '@/components/Navbar'
+import Dashborad from './dashboard'
+import {
+    QueryClient,
+    QueryClientProvider,
+    useQueryClient,
+} from '@tanstack/react-query'
 
 const page = () => {
+    const queryClient = new QueryClient()
     return (
-        <div>
+        <QueryClientProvider client={queryClient}>
             <Navbar />
-        </div>
+            <Dashborad />
+        </QueryClientProvider>
     )
 }
 
