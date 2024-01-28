@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            {/* <Navbar /> */}
+            <Navbar />
             <body className={` ${firaSans.className}`}>{children}</body>
         </html>
     )

@@ -1,19 +1,23 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Navbar() {
     const itemsStyle =
-        'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-yellow-400 hover:scale-105 hover:font-semibold sm:block hidden'
+        'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-yellow-400 hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
 
     return (
-        <nav className="bg-[#3CFFE6] border-b-2 sm:border-b-4 border-[#56d5c5] w-full h-12 sm:h-16 flex justify-between items-center text-neutral-800 font-thin rounded-b-3xl shadow-lg z-10">
-            <div className="p-1 ml-1 w-10 h-10 sm:w-14 sm:h-14 flex justify-center items-center bg-white/50 rounded-full z-20">
+        <head className="bg-default border-b-2 sm:border-b-8 border-black w-full h-12 sm:h-16 flex justify-between items-center  font-thin  shadow-lg z-10 text-white">
+            <Link
+                href={'/home'}
+                className="p-1 ml-1 w-10 h-10 sm:w-14 sm:h-14 flex justify-center items-center  rounded-full z-20 hover:scale-105 cursor-pointer"
+            >
                 <Image
                     src="/assets/logo.svg"
                     alt="Picture of the author"
                     width={100}
                     height={100}
                 />
-            </div>
+            </Link>
             <div className="flex items-center justify-around">
                 <a href="#" className={itemsStyle} title="Home">
                     Home
@@ -73,6 +77,6 @@ export default function Navbar() {
                     />
                 </div>
             </div>
-        </nav>
+        </head>
     )
 }

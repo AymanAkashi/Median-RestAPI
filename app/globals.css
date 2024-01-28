@@ -7,10 +7,21 @@
     height: 100%;
     background: rgb(6, 4, 48);
     background: linear-gradient(
-        340deg,
-        rgba(6, 4, 48, 1) 0%,
-        rgba(9, 49, 121, 1) 35%,
-        #00ffde 100%
+        120deg,
+        rgb(248, 211, 0) 0%,
+        rgb(248, 211, 0) 50%,
+        #000000 50%,
+        #000000 100%
+    );
+}
+
+.bg-default {
+    background: linear-gradient(
+        120deg,
+        rgb(248, 211, 0) 0%,
+        rgb(248, 211, 0) 50%,
+        #000000 50%,
+        #000000 100%
     );
 }
 
