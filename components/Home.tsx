@@ -29,7 +29,7 @@ const Home = () => {
             <div className="flex justify-center items-center">
                 <Button
                     props={{
-                        href: '/about',
+                        href: '/signin',
                         title: 'Join',
                         text: 'Join us',
                     }}

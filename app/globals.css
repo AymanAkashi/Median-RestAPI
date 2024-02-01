@@ -13,6 +13,20 @@
         #000000 50%,
         #000000 100%
     );
+    background-size: 100% 100%;
+    animation: gradientAnimation 5s linear;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-size: 100% 0%;
+    }
+    50% {
+        background-size: 100% 50%;
+    }
+    100% {
+        background-size: 100% 100%;
+    }
 }
 
 .bg-default {
