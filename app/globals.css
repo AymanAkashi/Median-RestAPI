@@ -2,16 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* add colors */
+
+@layer components {
+    .bg-default {
+        background: linear-gradient(
+            120deg,
+            #fff 0%,
+            #fff 50%,
+            #afafaf 50%,
+            #afafaf 100%
+        );
+    }
+}
+
 :root {
     width: 100%;
     height: 100%;
-    background: rgb(6, 4, 48);
     background: linear-gradient(
         120deg,
-        rgb(248, 211, 0) 0%,
-        rgb(248, 211, 0) 50%,
-        #000000 50%,
-        #000000 100%
+        #fff 0%,
+        #fff 50%,
+        #afafaf 50%,
+        #afafaf 100%
     );
     background-size: 100% 100%;
     animation: gradientAnimation 5s linear;
@@ -32,10 +45,10 @@
 .bg-default {
     background: linear-gradient(
         120deg,
-        rgb(248, 211, 0) 0%,
-        rgb(248, 211, 0) 50%,
-        #000000 50%,
-        #000000 100%
+        #fff 0%,
+        #fff 50%,
+        #afafaf 50%,
+        #afafaf 100%
     );
 }
 
