@@ -1,14 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import SearchButton from './SearchButton'
 
 export default function Navbar() {
     const itemsStyle =
-        'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-yellow-400 hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
+        'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
 
     return (
         <nav
             id="navbar"
-            className="bg-default border-b-2 sm:border-b-8 border-black w-full h-12 sm:h-16 flex justify-between items-center  font-thin  shadow-lg z-10 text-white"
+            className="bg-default rounded-b-3xl  w-full h-12 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black"
         >
             <Link
                 href={'/home'}
@@ -22,6 +23,9 @@ export default function Navbar() {
                 />
             </Link>
             <div className="flex items-center justify-around">
+                <div className="mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary">
+                    <SearchButton />
+                </div>
                 <Link href="#" className={itemsStyle} title="Home">
                     Home
                 </Link>
@@ -60,8 +64,11 @@ export default function Navbar() {
                         className="group-hover:opacity-0 absolute inset-0  opacity-100 sm:hidden"
                     />
                 </div>
-                <Link href="#" className={itemsStyle}>
-                    Contact
+                <Link
+                    href="#"
+                    className={`mx-2 sm:mx-4  h-8 rounded-full bg-primary font-medium flex justify-center items-center text-center px-2 transition-all delay-75 duration-100 hover:bg-secondary hover:text-primary hover:scale-105`}
+                >
+                    Join now
                 </Link>
                 <div className="mx-2 sm:mx-4 relative w-6 h-6 flex justify-center items-center group sm:hidden transition-all delay-75 duration-100">
                     <Image
