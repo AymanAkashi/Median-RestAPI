@@ -33,14 +33,14 @@ export default function Page() {
     })
 
     const [isFocused, setIsFocused] = React.useState([
-        'top-1 left-1 text-white/50',
-        'top-1 left-1 text-white/50',
-        'top-1 left-1 text-white/50',
+        'top-1 left-1 text-accent/50',
+        'top-1 left-1 text-accent/50',
+        'top-1 left-1 text-accent/50',
     ])
 
     return (
-        <div className="w-64 sm:w-72 bg-white/5 border-l-2 border-t-2  rounded-xl p-4 gap-y-14 flex-col justify-center items-center font-medium h-full ">
-            <div className="flex justify-center items-center bg-white/10 py-2 w-48 m-auto rounded-2xl">
+        <div className="w-64 sm:w-72  border-4 border-secondary rounded-xl bg-[#FAFAFA]/60 p-4 gap-y-14 flex-col justify-center items-center font-medium h-full relative">
+            <div className="flex justify-center items-center absolute inset-x-0 -top-6">
                 <Image
                     src="/assets/fullLogo.svg"
                     alt="logo"
@@ -49,7 +49,7 @@ export default function Page() {
                     className="flex justify-center items-center"
                 />
             </div>
-            <p className="text-center text-white text-3xl font-mono py-2 pb-6">
+            <p className="text-center text-black text-3xl font-mono py-2 pb-6 mt-9">
                 Sign Up
             </p>
             <form.Provider>
@@ -90,7 +90,7 @@ export default function Page() {
                                         </label>
                                         <input
                                             type="name"
-                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-[#861657] focus:border-white transition-all duration-200 ease-in-out text-black "
+                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black "
                                             autoComplete="off"
                                             id={field.name}
                                             name={field.name}
@@ -99,7 +99,7 @@ export default function Page() {
                                                 field.handleBlur
                                                 if (field.getValue() === '') {
                                                     setIsFocused([
-                                                        'top-1 left-1 text-white/50',
+                                                        'top-1 left-1 text-accent/50',
                                                         isFocused[1],
                                                         isFocused[2],
                                                     ])
@@ -158,7 +158,7 @@ export default function Page() {
                                         </label>
                                         <input
                                             type="name"
-                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-[#861657] focus:border-white transition-all duration-200 ease-in-out text-black "
+                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black "
                                             autoComplete="off"
                                             id={field.name}
                                             name={field.name}
@@ -168,7 +168,7 @@ export default function Page() {
                                                 if (field.getValue() === '') {
                                                     setIsFocused([
                                                         isFocused[0],
-                                                        'top-1 left-1 text-white/50',
+                                                        'top-1 left-1 text-accent/50',
                                                         isFocused[2],
                                                     ])
                                                 }
@@ -215,7 +215,7 @@ export default function Page() {
                                     </label>
                                     <input
                                         placeholder=" "
-                                        className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-[#861657] focus:border-white transition-all duration-200 ease-in-out text-black"
+                                        className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black"
                                         type="password"
                                         autoComplete="off"
                                         id={field.name}
@@ -227,7 +227,7 @@ export default function Page() {
                                                 setIsFocused([
                                                     isFocused[0],
                                                     isFocused[1],
-                                                    'top-1 left-1 text-white/50',
+                                                    'top-1 left-1 text-accent/50',
                                                 ])
                                             }
                                         }}
@@ -257,7 +257,7 @@ export default function Page() {
                             <button
                                 type="submit"
                                 disabled={!canSubmit}
-                                className="w-24 h-10 flex justify-center items-center m-auto text-center rounded-full transition-all duration-500 bg-gradient-to-t to-[#861657] via-[#ffe300] from-[#ffa300] bg-size-200 bg-pos-0 hover:bg-pos-100 hover:border-r-2 hover:border-l-2 hover:border-orange-500 hover:scale-105"
+                                className="w-24 h-10 flex justify-center items-center m-auto text-center rounded-full transition-all duration-500 bg-gradient-to-t to-secondary via-accent from-primary bg-size-200 bg-pos-0 hover:bg-pos-100 hover:border-r-2 hover:border-l-2 hover:border-black hover:scale-105"
                             >
                                 {isSubmitting ? '...' : 'Submit'}
                             </button>
