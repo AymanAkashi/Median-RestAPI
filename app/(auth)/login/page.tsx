@@ -8,6 +8,13 @@ import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 
+import {
+    FormStyle,
+    inputStyle,
+    buttonStyle,
+    switchTextStyle,
+} from '@/app/(auth)/style'
+
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
         <>
@@ -26,19 +33,19 @@ export default function Page() {
             password: '',
         },
         onSubmit: async ({ value }) => {
-            const data = await axios.post('/auth/login', value)
+            const data = await axios.post('/auth/signin', value)
             console.log(data)
         },
     })
 
     const [isFocused, setIsFocused] = React.useState([
-        'top-1 left-1 text-white/50',
-        'top-1 left-1 text-white/50',
+        'top-1 left-1 text-accent/30 opacity-30',
+        'top-1 left-1 text-accent/30 opacity-30',
     ])
 
     return (
-        <div className="w-64 sm:w-72 bg-white/5 border-l-2 border-t-2  rounded-xl p-4 gap-y-14 flex-col justify-center items-center font-medium h-full ">
-            <div className="flex justify-center items-center bg-white/10 py-2 w-48 m-auto rounded-2xl">
+        <div className={FormStyle}>
+            <div className="flex justify-center items-center absolute inset-x-0 -top-6">
                 <Image
                     src="/assets/fullLogo.svg"
                     alt="logo"
@@ -47,8 +54,8 @@ export default function Page() {
                     className="flex justify-center items-center"
                 />
             </div>
-            <p className="text-center text-white text-3xl font-mono py-2 pb-6">
-                LogIn
+            <p className="text-center text-black text-xl font-mono py-2 pb-6 mt-9 sm:text-3xl">
+                Log In
             </p>
             <form.Provider>
                 <form
@@ -57,7 +64,7 @@ export default function Page() {
                         e.stopPropagation()
                         void form.handleSubmit()
                     }}
-                    className="flex flex-col justify-center items-center gap-y-6"
+                    className="flex flex-col justify-center items-center space-y-6"
                 >
                     <div className="text-red-500 text-sm">
                         {/* A type-safe field component*/}
@@ -70,8 +77,8 @@ export default function Page() {
                                         : !value.includes('@')
                                         ? 'must be an email'
                                         : undefined,
-                                onChangeAsyncDebounceMs: 500,
-                                onChangeAsync: async ({ value }) => {
+                                onBlurAsyncDebounceMs: 500,
+                                onBlurAsync: async ({ value }) => {
                                     await new Promise((resolve) =>
                                         setTimeout(resolve, 1000)
                                     )
@@ -91,8 +98,8 @@ export default function Page() {
                                             Email
                                         </label>
                                         <input
-                                            type="name"
-                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-[#861657] focus:border-white transition-all duration-200 ease-in-out text-black "
+                                            type="email"
+                                            className={inputStyle}
                                             autoComplete="off"
                                             id={field.name}
                                             name={field.name}
@@ -101,7 +108,7 @@ export default function Page() {
                                                 field.handleBlur
                                                 if (field.getValue() === '') {
                                                     setIsFocused([
-                                                        'top-1 left-1 text-white/50',
+                                                        'top-1 left-1 text-accent/30 opacity-30',
                                                         isFocused[1],
                                                     ])
                                                 }
@@ -147,7 +154,7 @@ export default function Page() {
                                     </label>
                                     <input
                                         placeholder=" "
-                                        className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-[#861657] focus:border-white transition-all duration-200 ease-in-out text-black"
+                                        className={inputStyle}
                                         type="password"
                                         autoComplete="off"
                                         id={field.name}
@@ -158,8 +165,7 @@ export default function Page() {
                                             if (field.getValue() === '') {
                                                 setIsFocused([
                                                     isFocused[0],
-                                                    isFocused[1],
-                                                    'top-1 left-1 text-white/50',
+                                                    'top-1 left-1 text-accent/30 opacity-30',
                                                 ])
                                             }
                                         }}
@@ -188,18 +194,17 @@ export default function Page() {
                             <button
                                 type="submit"
                                 disabled={!canSubmit}
-                                className="w-24 h-10 flex justify-center items-center m-auto text-center rounded-full transition-all duration-500 bg-gradient-to-t to-[#861657] via-[#ffe300] from-[#ffa300] bg-size-200 bg-pos-0 hover:bg-pos-100 hover:border-r-2 hover:border-l-2 hover:border-orange-500 hover:scale-105"
+                                className={buttonStyle}
                             >
-                                {isSubmitting ? '...' : 'Submit'}
+                                {isSubmitting ? '...' : 'Login'}
                             </button>
                         )}
                     />
                 </form>
             </form.Provider>
-            <Link href="/signup">
-                <p className="text-blue-700/45 hover:outline-1 hover:text-blue-700 transition-all delay-75 text-sm cursor-pointer text-center py-3">
-                    Don't have an account? Sign Up
-                </p>
+            <Link href="/signup" className={switchTextStyle}>
+                <p className="">You don't have an account?</p>
+                <p className="outline-1 text-center">Sign Up</p>
             </Link>
         </div>
     )

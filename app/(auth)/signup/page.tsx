@@ -7,6 +7,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
+import { FormStyle, inputStyle, buttonStyle, switchTextStyle } from '../style'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -31,25 +32,28 @@ export default function Page() {
             console.log(data)
         },
     })
+    const defaultInput = 'top-1 left-1 text-accent/30 opacity-30'
+    const animationInput =
+        '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black'
 
     const [isFocused, setIsFocused] = React.useState([
-        'top-1 left-1 text-accent/50',
-        'top-1 left-1 text-accent/50',
-        'top-1 left-1 text-accent/50',
+        defaultInput,
+        defaultInput,
+        defaultInput,
     ])
 
     return (
-        <div className="w-64 sm:w-72  border-4 border-secondary rounded-xl bg-[#FAFAFA]/60 p-4 gap-y-14 flex-col justify-center items-center font-medium h-full relative">
-            <div className="flex justify-center items-center absolute inset-x-0 -top-6">
+        <div className={FormStyle}>
+            <div className="flex justify-center items-center absolute inset-x-0 -top-4 sm:-top-6">
                 <Image
                     src="/assets/fullLogo.svg"
                     alt="logo"
                     width={100}
                     height={100}
-                    className="flex justify-center items-center"
+                    className="flex justify-center items-center h-16 w-16 sm:w-20 sm:h-20"
                 />
             </div>
-            <p className="text-center text-black text-3xl font-mono py-2 pb-6 mt-9">
+            <p className="text-center text-black text-xl font-mono py-2 pb-6 mt-9 sm:text-3xl">
                 Sign Up
             </p>
             <form.Provider>
@@ -59,7 +63,7 @@ export default function Page() {
                         e.stopPropagation()
                         void form.handleSubmit()
                     }}
-                    className="flex flex-col justify-center items-center gap-y-6"
+                    className="flex flex-col justify-center items-center space-y-6"
                 >
                     <div className="text-red-500 text-sm">
                         {/* A type-safe field component*/}
@@ -89,8 +93,9 @@ export default function Page() {
                                             Username
                                         </label>
                                         <input
+                                            placeholder=" "
                                             type="name"
-                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black "
+                                            className={inputStyle}
                                             autoComplete="off"
                                             id={field.name}
                                             name={field.name}
@@ -99,7 +104,7 @@ export default function Page() {
                                                 field.handleBlur
                                                 if (field.getValue() === '') {
                                                     setIsFocused([
-                                                        'top-1 left-1 text-accent/50',
+                                                        defaultInput,
                                                         isFocused[1],
                                                         isFocused[2],
                                                     ])
@@ -113,7 +118,7 @@ export default function Page() {
                                             onFocus={(e) => {
                                                 e.preventDefault()
                                                 setIsFocused([
-                                                    '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                    animationInput,
                                                     isFocused[1],
                                                     isFocused[2],
                                                 ])
@@ -149,7 +154,7 @@ export default function Page() {
                             children={(field) => {
                                 // Avoid hasty abstractions. Render props are great!
                                 return (
-                                    <div className="relative flex flex-col justify-center items-center gap-y-3">
+                                    <div className="relative flex flex-col justify-center items-center gap-y-2">
                                         <label
                                             htmlFor={field.name}
                                             className={`absolute ${isFocused[1]} transition-all duration-200 ease-in-out text-black`}
@@ -158,7 +163,7 @@ export default function Page() {
                                         </label>
                                         <input
                                             type="name"
-                                            className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black "
+                                            className={inputStyle}
                                             autoComplete="off"
                                             id={field.name}
                                             name={field.name}
@@ -168,7 +173,7 @@ export default function Page() {
                                                 if (field.getValue() === '') {
                                                     setIsFocused([
                                                         isFocused[0],
-                                                        'top-1 left-1 text-accent/50',
+                                                        defaultInput,
                                                         isFocused[2],
                                                     ])
                                                 }
@@ -182,7 +187,7 @@ export default function Page() {
                                                 e.preventDefault()
                                                 setIsFocused([
                                                     isFocused[0],
-                                                    '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                    animationInput,
                                                     isFocused[2],
                                                 ])
                                             }}
@@ -215,7 +220,7 @@ export default function Page() {
                                     </label>
                                     <input
                                         placeholder=" "
-                                        className="w-52 h-8 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black"
+                                        className={inputStyle}
                                         type="password"
                                         autoComplete="off"
                                         id={field.name}
@@ -227,7 +232,7 @@ export default function Page() {
                                                 setIsFocused([
                                                     isFocused[0],
                                                     isFocused[1],
-                                                    'top-1 left-1 text-accent/50',
+                                                    defaultInput,
                                                 ])
                                             }
                                         }}
@@ -239,7 +244,7 @@ export default function Page() {
                                             setIsFocused([
                                                 isFocused[0],
                                                 isFocused[1],
-                                                '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                animationInput,
                                             ])
                                         }}
                                     />
@@ -257,7 +262,7 @@ export default function Page() {
                             <button
                                 type="submit"
                                 disabled={!canSubmit}
-                                className="w-24 h-10 flex justify-center items-center m-auto text-center rounded-full transition-all duration-500 bg-gradient-to-t to-secondary via-accent from-primary bg-size-200 bg-pos-0 hover:bg-pos-100 hover:border-r-2 hover:border-l-2 hover:border-black hover:scale-105"
+                                className={buttonStyle}
                             >
                                 {isSubmitting ? '...' : 'Submit'}
                             </button>
@@ -265,10 +270,9 @@ export default function Page() {
                     />
                 </form>
             </form.Provider>
-            <Link href="/login">
-                <p className="text-blue-700/45 hover:outline-1 hover:text-blue-700 transition-all delay-75 text-sm cursor-pointer text-center py-3">
-                    Already have an account?
-                </p>
+            <Link href="/login" className={switchTextStyle}>
+                <p className="">Already have an account?</p>
+                <p className="outline-1 text-center">Log in</p>
             </Link>
         </div>
     )

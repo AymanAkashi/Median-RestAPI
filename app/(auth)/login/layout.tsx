@@ -7,15 +7,13 @@ const layout = ({
     children: React.ReactNode
 }>) => {
     const mystyle = {
-        minHeight: 'calc(100vh - 150px)',
+        minHeight: 'calc(100vh - 200px)',
     }
 
     return (
-        <div className="w-full min-h-screen">
-            <main className="flex justify-center items-center" style={mystyle}>
-                {children}
-            </main>
-        </div>
+        <main className="flex justify-center items-center mt-4" style={mystyle}>
+            {children}
+        </main>
     )
 }
 
