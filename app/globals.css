@@ -26,8 +26,6 @@
         #afafaf 50%,
         #afafaf 100%
     );
-    background-size: 100% 100%;
-    animation: gradientAnimation 5s linear;
 }
 
 @keyframes gradientAnimation {
