@@ -34,7 +34,7 @@ export default function Page() {
     })
     const defaultInput = 'top-1 left-1 text-accent/30 opacity-30'
     const animationInput =
-        '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black'
+        '-top-5 left-1 text-sm bg-primary rounded-full px-1 transition-all duration-200 ease-in-out text-black'
 
     const [isFocused, setIsFocused] = React.useState([
         defaultInput,
