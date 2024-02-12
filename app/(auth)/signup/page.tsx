@@ -40,7 +40,7 @@ export default function Page() {
                 .catch((err) => setError(err.response.data.message))
 
             if (data === 201) {
-                window.location.href = '/login'
+                window.location.href = '/home'
             }
         },
     })
