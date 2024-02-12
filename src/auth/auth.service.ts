@@ -45,7 +45,7 @@ export class AuthService {
     const newUser = await this.UserService.create({ email, password, name });
 
     return {
-      accessToken: this.jwtService.sign({ email: user.email }),
+      accessToken: this.jwtService.sign({ email: newUser.email }),
     };
   }
   async verifyToken(token: string) {
