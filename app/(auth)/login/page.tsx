@@ -7,6 +7,7 @@ import Image from 'next/image'
 import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 import {
     FormStyle,
@@ -27,16 +28,32 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 }
 
 export default function Page() {
+    const [status, setStatus] = React.useState(false)
     const form = useForm({
         defaultValues: {
             email: '',
             password: '',
         },
         onSubmit: async ({ value }) => {
-            const data = await axios.post('/auth/signin', value)
-            console.log(data)
+            try {
+                const data = await axios
+                    .post('/api/auth/login', value)
+                    .then((res) => res.status)
+                    .catch((err) => console.log(err))
+                if (data === 201) {
+                    setStatus(true)
+                }
+            } catch (e) {
+                console.log(e)
+            }
         },
     })
+
+    React.useEffect(() => {
+        if (status) {
+            redirect('/home')
+        }
+    }, [status])
 
     const [isFocused, setIsFocused] = React.useState([
         'top-1 left-1 text-accent/30 opacity-30',

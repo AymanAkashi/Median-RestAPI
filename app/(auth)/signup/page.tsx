@@ -8,6 +8,7 @@ import axios from 'axios'
 import { useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { FormStyle, inputStyle, buttonStyle, switchTextStyle } from '../style'
+import { redirect } from 'next/navigation'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -21,6 +22,8 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 }
 
 export default function Page() {
+    const [error, setError] = React.useState('')
+
     const form = useForm({
         defaultValues: {
             username: '',
@@ -28,8 +31,17 @@ export default function Page() {
             password: '',
         },
         onSubmit: async ({ value }) => {
-            const data = await axios.post('/auth/signin', value)
-            console.log(data)
+            const data = await axios
+                .post('/api/auth/signup', {
+                    name: value.username,
+                    ...value,
+                })
+                .then((res) => res.status)
+                .catch((err) => setError(err.response.data.message))
+
+            if (data === 201) {
+                window.location.href = '/login'
+            }
         },
     })
     const defaultInput = 'top-1 left-1 text-accent/30 opacity-30'
@@ -72,8 +84,8 @@ export default function Page() {
                             validators={{
                                 onBlur: ({ value }) =>
                                     !value ? 'user not empty' : undefined,
-                                onChangeAsyncDebounceMs: 500,
-                                onChangeAsync: async ({ value }) => {
+                                onBlurAsyncDebounceMs: 100,
+                                onBlurAsync: async ({ value }) => {
                                     await new Promise((resolve) =>
                                         setTimeout(resolve, 1000)
                                     )
@@ -116,6 +128,7 @@ export default function Page() {
                                                 )
                                             }
                                             onFocus={(e) => {
+                                                setError('')
                                                 e.preventDefault()
                                                 setIsFocused([
                                                     animationInput,
@@ -141,8 +154,8 @@ export default function Page() {
                                         : !value.includes('@')
                                         ? 'must be an email'
                                         : undefined,
-                                onChangeAsyncDebounceMs: 500,
-                                onChangeAsync: async ({ value }) => {
+                                onBlurAsyncDebounceMs: 100,
+                                onBlurAsync: async ({ value }) => {
                                     await new Promise((resolve) =>
                                         setTimeout(resolve, 1000)
                                     )
@@ -184,6 +197,7 @@ export default function Page() {
                                                 )
                                             }
                                             onFocus={(e) => {
+                                                setError('')
                                                 e.preventDefault()
                                                 setIsFocused([
                                                     isFocused[0],
@@ -240,6 +254,7 @@ export default function Page() {
                                             field.handleChange(e.target.value)
                                         }
                                         onFocus={(e) => {
+                                            setError('')
                                             e.preventDefault()
                                             setIsFocused([
                                                 isFocused[0],
@@ -253,6 +268,7 @@ export default function Page() {
                             )}
                         />
                     </div>
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
                     <form.Subscribe
                         selector={(state) => [
                             state.canSubmit,
