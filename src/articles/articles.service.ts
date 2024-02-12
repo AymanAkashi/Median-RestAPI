@@ -36,4 +36,24 @@ export class ArticlesService {
   remove(id: number) {
     return this.prisma.article.delete({ where: { id } });
   }
+
+  trending() {
+    return this.prisma.article.findMany({
+      orderBy: { Likes: 'desc' },
+      take: 5,
+    });
+  }
+
+  search(query: string) {
+    return this.prisma.article.findMany({
+      where: {
+        OR: [
+          { title: { contains: query } },
+          { description: { contains: query } },
+          { body: { contains: query } },
+          { Tags: { hasSome: query.split(' ') } },
+        ],
+      },
+    });
+  }
 }

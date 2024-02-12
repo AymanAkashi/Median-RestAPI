@@ -68,4 +68,18 @@ export class ArticlesController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new ArticleEntity(await this.articlesService.remove(id));
   }
+
+  @Get('trending')
+  @ApiOkResponse({ type: [ArticleEntity] })
+  async trending() {
+    const articles = await this.articlesService.trending();
+    return articles.map((article) => new ArticleEntity(article));
+  }
+
+  @Get('search/:query')
+  @ApiOkResponse({ type: [ArticleEntity] })
+  async search(@Param('query') query: string) {
+    const articles = await this.articlesService.search(query);
+    return articles.map((article) => new ArticleEntity(article));
+  }
 }
