@@ -9,22 +9,48 @@ import { FaRegQuestionCircle } from 'react-icons/fa'
 import { IoMenu } from 'react-icons/io5'
 import { CgProfile } from 'react-icons/cg'
 import { use, useEffect, useState } from 'react'
+import {
+    QueryClient,
+    QueryClientProvider,
+    useQuery,
+} from '@tanstack/react-query'
 import axios from 'axios'
 
 export default function Navbar() {
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                refetchOnWindowFocus: true,
+            },
+        },
+    })
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Nav />
+        </QueryClientProvider>
+    )
+}
+
+export function Nav() {
     const [isLoging, setIsLoging] = useState(false)
 
-    useEffect(() => {
-        const verify = async () => {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['verify'],
+        queryFn: async () => {
             const data = await axios
                 .get('/api/auth/verify')
                 .then((res) => setIsLoging(true))
                 .catch((err) => setIsLoging(false))
 
             console.log(data)
+        },
+    })
+
+    useEffect(() => {
+        if (data) {
+            setIsLoging(true)
         }
-        verify()
-    }, [])
+    }, [data])
 
     const itemsStyle =
         'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
@@ -49,7 +75,7 @@ export default function Navbar() {
                 <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary">
                     <SearchButton />
                 </div>
-                <div className="dropdown dropdown-end">
+                <div className="dropdown dropdown-end dropdown-hover">
                     <div
                         tabIndex={0}
                         className="rounded-full bg-primary text-secondary hover:bg-secondary hover:text-primary text-center h-8 w-8 flex justify-center items-center"

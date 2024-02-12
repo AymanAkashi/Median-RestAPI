@@ -9,7 +9,7 @@ const SearchButton = () => {
 
     const [search, setSearch] = React.useState('')
     return (
-        <div className="relative w-12 sm:w-24 md:w-72  h-8 sm:h-10 flex justify-end items-center group ">
+        <div className="relative w-12 sm:w-24 md:w-auto h-8 sm:h-10 flex justify-end items-center group ">
             <div className="absolute  z-0 bg-primary w-8 h-8 rounded-full flex justify-center items-center group-hover:text-primary group-hover:bg-secondary transition-all delay-75 duration-100 group-focus-within:hidden">
                 <LuSearch className="w-6 h-6" />
             </div>
