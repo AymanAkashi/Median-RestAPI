@@ -29,11 +29,11 @@ export class AuthService {
       throw new UnauthorizedException('Invalid Password Try another one.');
 
     return {
-      accessToken: this.jwtService.sign({ userId: user.id }),
+      accessToken: this.jwtService.sign({ email: user.email }),
     };
   }
 
-  async signin(
+  async signup(
     name: string,
     email: string,
     password: string,
@@ -45,7 +45,15 @@ export class AuthService {
     const newUser = await this.UserService.create({ email, password, name });
 
     return {
-      accessToken: this.jwtService.sign({ userId: newUser.id }),
+      accessToken: this.jwtService.sign({ email: user.email }),
     };
+  }
+  async verifyToken(token: string) {
+    try {
+      const data = await this.jwtService.verify(token);
+      return data;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid Token');
+    }
   }
 }

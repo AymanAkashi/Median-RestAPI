@@ -30,6 +30,12 @@ export class ArticleEntity implements Article {
   updatedAt: Date;
 
   @ApiProperty()
+  Tags: string[];
+
+  @ApiProperty()
+  Likes: number;
+
+  @ApiProperty()
   authorId: number | null;
 
   @ApiProperty({ required: false, type: UserEntity })
