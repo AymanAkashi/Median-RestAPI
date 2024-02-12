@@ -2,15 +2,30 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import SearchButton from './SearchButton'
-import { RiLoginCircleFill } from 'react-icons/ri'
+import { RiLogoutCircleRFill, RiLoginCircleFill } from 'react-icons/ri'
 import { CgDarkMode } from 'react-icons/cg'
 import { GoHomeFill } from 'react-icons/go'
 import { FaRegQuestionCircle } from 'react-icons/fa'
 import { IoMenu } from 'react-icons/io5'
-import { useState } from 'react'
+import { CgProfile } from 'react-icons/cg'
+import { use, useEffect, useState } from 'react'
+import axios from 'axios'
 
 export default function Navbar() {
-    const [dropDown, setDropDown] = useState(false)
+    const [isLoging, setIsLoging] = useState(false)
+
+    useEffect(() => {
+        const verify = async () => {
+            const data = await axios
+                .get('/api/auth/verify')
+                .then((res) => setIsLoging(true))
+                .catch((err) => setIsLoging(false))
+
+            console.log(data)
+        }
+        verify()
+    }, [])
+
     const itemsStyle =
         'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
 
@@ -34,46 +49,72 @@ export default function Navbar() {
                 <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary">
                     <SearchButton />
                 </div>
-                <Link href="#" className={itemsStyle} title="Home">
-                    Home
-                </Link>
-                <Link href="#" className={`${itemsStyle} sm:block hidden`}>
-                    About
-                </Link>
-                <Link
-                    href="/signup"
-                    title="Join now"
-                    className={`mx-2 sm:mx-4  h-6 rounded-full bg-primary font-medium justify-center items-center text-center text-xs  sm:px-2 transition-all delay-75 duration-100 hover:bg-secondary hover:text-primary hover:scale-105 sm:flex hidden`}
-                >
-                    <p className="sm:block hidden">Join now</p>
-                </Link>
                 <div className="dropdown dropdown-end">
                     <div
                         tabIndex={0}
-                        className="sm:hidden rounded-full bg-primary text-secondary hover:bg-secondary hover:text-primary text-center h-8 w-8 flex justify-center items-center"
+                        className="rounded-full bg-primary text-secondary hover:bg-secondary hover:text-primary text-center h-8 w-8 flex justify-center items-center"
                         role="button"
                         title="menu"
                     >
-                        <IoMenu className="w-6 h-6" />
+                        <CgProfile className="h-4/5 w-4/5" />
                     </div>
-                    <ul className="dropdown-content z-[1] menu p-2 shadow bg-white w-28 rounded-2xl">
-                        <li className="text-secondary flex justify-between items-center w-full hover:bg-primary">
+                    <ul className="dropdown-content z-[1] menu  shadow bg-white w-28 sm:w-32 rounded-2xl">
+                        {isLoging ? (
+                            <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                                <Link href={'/profile'}>
+                                    <CgProfile className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                    Profile
+                                </Link>
+                            </li>
+                        ) : (
+                            <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                                <Link
+                                    href="/signup"
+                                    title="Join now"
+                                    className={`text-secondary flex justify-between items-center w-full rounded-xl`}
+                                >
+                                    <RiLoginCircleFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                    Join now
+                                </Link>
+                            </li>
+                        )}
+                        <li className="text-secondary flex justify-between items-center w-full rounded-xl">
                             <Link href={'/'}>
-                                <GoHomeFill />
+                                <GoHomeFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
                                 Home
                             </Link>
                         </li>
-                        <li className="text-secondary flex justify-between items-center w-full hover:bg-primary">
-                            <Link href={'/'}>
-                                <FaRegQuestionCircle /> About
+                        <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                            <Link href={'/about'}>
+                                <FaRegQuestionCircle className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                About
                             </Link>
                         </li>
-                        <li className="text-secondary flex justify-between items-center w-full hover:bg-primary">
-                            <Link href={'/'}>
-                                <CgDarkMode />
+                        <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                            <button
+                                type="button"
+                                title="Dark Mode"
+                                onClick={() => {}}
+                            >
+                                <CgDarkMode className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
                                 Theme
-                            </Link>
+                            </button>
                         </li>
+                        {isLoging && (
+                            <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                                <button
+                                    title="logout"
+                                    type="button"
+                                    onClick={() => {
+                                        axios.post('/api/auth/logout')
+                                        window.location.href = '/'
+                                    }}
+                                >
+                                    <RiLogoutCircleRFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                    <p>Logout</p>
+                                </button>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>
