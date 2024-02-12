@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Article" ADD COLUMN     "Likes" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "Tags" TEXT[];
