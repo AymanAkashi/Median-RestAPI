@@ -11,8 +11,12 @@ export class ArticlesService {
     return this.prisma.article.create({ data: createArticleDto });
   }
 
-  findAll() {
-    return this.prisma.article.findMany({ where: { published: true } });
+  async findAll() {
+    const article = await this.prisma.article.findMany({
+      where: { published: true },
+      include: { author: true },
+    });
+    return article;
   }
 
   findDrafts() {

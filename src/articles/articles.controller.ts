@@ -45,7 +45,6 @@ export class ArticlesController {
   @ApiOkResponse({ type: ArticleEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const article = await this.articlesService.findOne(id);
-    console.log(article);
     if (!article) {
       throw new NotFoundException(`Article #${id} not found`);
     }
