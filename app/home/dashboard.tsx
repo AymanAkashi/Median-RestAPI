@@ -14,6 +14,7 @@ const Dashboard = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                withCredentials: true,
             })
             return data as Article[]
         },

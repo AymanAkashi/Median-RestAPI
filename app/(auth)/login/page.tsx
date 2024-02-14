@@ -71,7 +71,7 @@ export default function Page() {
                     className="flex justify-center items-center"
                 />
             </div>
-            <p className="text-center text-black text-xl font-mono py-2 pb-6 mt-9 sm:text-3xl">
+            <p className="text-center text-black dark:text-white text-xl font-mono py-2 pb-6 mt-9 sm:text-3xl">
                 Log In
             </p>
             <form.Provider>
@@ -110,7 +110,7 @@ export default function Page() {
                                     <div className="relative flex flex-col justify-center items-center gap-y-3">
                                         <label
                                             htmlFor={field.name}
-                                            className={`absolute ${isFocused[0]} transition-all duration-200 ease-in-out text-black`}
+                                            className={`absolute ${isFocused[0]} transition-all duration-200 ease-in-out text-black dark:text-white`}
                                         >
                                             Email
                                         </label>
@@ -138,7 +138,7 @@ export default function Page() {
                                             onFocus={(e) => {
                                                 e.preventDefault()
                                                 setIsFocused([
-                                                    '-top-5 left-1 text-sm bg-primary rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                    '-top-5 left-1 text-sm bg-primary dark:bg-primary_dark rounded-full px-1 transition-all duration-200 ease-in-out text-black dark:text-white',
                                                     isFocused[1],
                                                 ])
                                             }}
@@ -165,7 +165,7 @@ export default function Page() {
                                 <div className="relative flex flex-col justify-center items-center gap-y-2">
                                     <label
                                         htmlFor={field.name}
-                                        className={`absolute ${isFocused[1]} transition-all duration-200 ease-in-out text-black`}
+                                        className={`absolute ${isFocused[1]} transition-all duration-200 ease-in-out text-black dark:text-white`}
                                     >
                                         Password
                                     </label>
@@ -193,7 +193,7 @@ export default function Page() {
                                             e.preventDefault()
                                             setIsFocused([
                                                 isFocused[0],
-                                                '-top-5 left-1 text-sm bg-primary rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                '-top-5 left-1 text-sm bg-primary dark:bg-primary_dark rounded-full px-1 transition-all duration-200 ease-in-out text-black dark:text-white',
                                             ])
                                         }}
                                     />

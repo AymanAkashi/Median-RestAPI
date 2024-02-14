@@ -35,7 +35,7 @@ export function Nav() {
     const [isLoging, setIsLoging] = useState(false)
 
     const [styleNav, setStyleNav] = useState(
-        'bg-default   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
+        'bg-default dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg dark:shadow-[0_3px_10px_#ffffff99] z-10 text-black dark:text-white relative'
     )
 
     const { data, isLoading, isError } = useQuery({
@@ -58,12 +58,12 @@ export function Nav() {
 
             if (offset > 40) {
                 setStyleNav(
-                    '  w-full h-10 bg-accent/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black fixed scroll transition-all delay-75 duration-150'
+                    '  w-full h-10 bg-accent/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white fixed scroll transition-all delay-75 duration-150'
                 )
                 console.log('scrolled')
             } else {
                 setStyleNav(
-                    'bg-default   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
+                    'bg-default dark:bg-default dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white relative'
                 )
                 console.log('not scrolled')
             }
@@ -80,7 +80,7 @@ export function Nav() {
         <nav id="navbar" className={`${styleNav}`}>
             <Link
                 href={'/home'}
-                className="p-1 h-8 sm:h-4/5 flex justify-center items-center  rounded-full z-20 cursor-pointer"
+                className="p-1 h-8 sm:h-4/5 flex justify-center items-center  rounded-full z-20 cursor-pointer text-secondary hover:text-primary dark:text-white dark:hover:text-primary"
             >
                 <img
                     src="/assets/logo.svg"
@@ -95,56 +95,60 @@ export function Nav() {
                 <div className="dropdown dropdown-end dropdown-hover">
                     <div
                         tabIndex={0}
-                        className="rounded-full bg-primary text-secondary hover:bg-secondary hover:text-primary text-center h-8 w-8 flex justify-center items-center"
+                        className="rounded-full bg-primary dark:hover:bg-primary_dark dark:bg-background_dark text-secondary hover:bg-secondary hover:text-primary dark:text-primary_dark dark:hover:text-background_dark text-center h-8 w-8 flex justify-center items-center"
                         role="button"
                         title="menu"
                     >
                         <CgProfile className="h-4/5 w-4/5" />
                     </div>
-                    <ul className="dropdown-content z-[1] menu  shadow bg-white w-28 sm:w-32 rounded-2xl">
+                    <ul className="dropdown-content z-[1] menu  shadow bg-white dark:bg-background_dark text-secondary dark:text-white dark:border w-28 sm:w-32 rounded-2xl">
                         {isLoging ? (
-                            <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                            <li className=" flex justify-between items-center w-full rounded-xl">
                                 <Link href={'/profile'}>
                                     <CgProfile className="h-4/5 w-4/5 sm:w-8 sm:h-8" />{' '}
                                     Profile
                                 </Link>
                             </li>
                         ) : (
-                            <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                            <li className=" flex justify-between items-center w-full rounded-xl">
                                 <Link
                                     href="/signup"
                                     title="Join now"
-                                    className={`text-secondary flex justify-between items-center w-full rounded-xl`}
+                                    className={` flex justify-between items-center w-full rounded-xl`}
                                 >
                                     <RiLoginCircleFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
                                     Join now
                                 </Link>
                             </li>
                         )}
-                        <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                        <li className=" flex justify-between items-center w-full rounded-xl">
                             <Link href={'/'}>
                                 <GoHomeFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
                                 Home
                             </Link>
                         </li>
-                        <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                        <li className=" flex justify-between items-center w-full rounded-xl">
                             <Link href={'/about'}>
                                 <FaRegQuestionCircle className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
                                 About
                             </Link>
                         </li>
-                        <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                        <li className=" flex justify-between items-center w-full rounded-xl">
                             <button
                                 type="button"
                                 title="Dark Mode"
-                                onClick={() => {}}
+                                onClick={() => {
+                                    document.documentElement.classList.toggle(
+                                        'dark'
+                                    )
+                                }}
                             >
                                 <CgDarkMode className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
-                                Theme
+                                Dark Mode
                             </button>
                         </li>
                         {isLoging && (
-                            <li className="text-secondary flex justify-between items-center w-full rounded-xl">
+                            <li className=" flex justify-between items-center w-full rounded-xl">
                                 <button
                                     title="logout"
                                     type="button"

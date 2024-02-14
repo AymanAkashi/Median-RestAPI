@@ -7,7 +7,7 @@ export default function AuthLayout({
     children: React.ReactNode
 }): JSX.Element {
     return (
-        <div className="w-full min-h-[calc(100vh-2.5rem)] sm:min-h-[calc(100vh-3.5rem)] bg-default flex justify-center items-center relative">
+        <div className="w-full min-h-[calc(100vh-2.5rem)] sm:min-h-[calc(100vh-3.5rem)] bg-default dark:bg-dark flex justify-center items-center relative text-white dark:text-background_dark">
             {children}
             <Image
                 src={'/assets/rightLine.svg'}

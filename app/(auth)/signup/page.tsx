@@ -46,7 +46,7 @@ export default function Page() {
     })
     const defaultInput = 'top-1 left-1 text-accent/30 opacity-30'
     const animationInput =
-        '-top-5 left-1 text-sm bg-primary rounded-full px-1 transition-all duration-200 ease-in-out text-black'
+        '-top-5 left-1 text-sm bg-primary dark:bg-primary_dark rounded-full px-1 transition-all duration-200 ease-in-out text-black dark:text-white'
 
     const [isFocused, setIsFocused] = React.useState([
         defaultInput,
@@ -65,7 +65,7 @@ export default function Page() {
                     className="flex justify-center items-center h-16 w-16 sm:w-20 sm:h-20"
                 />
             </div>
-            <p className="text-center text-black text-xl font-mono py-2 pb-6 mt-9 sm:text-3xl">
+            <p className="text-center text-black dark:text-white text-xl font-mono py-2 pb-6 mt-9 sm:text-3xl">
                 Sign Up
             </p>
             <form.Provider>
@@ -100,7 +100,7 @@ export default function Page() {
                                     <div className="relative flex flex-col justify-center items-center gap-y-3">
                                         <label
                                             htmlFor={field.name}
-                                            className={`absolute ${isFocused[0]} transition-all duration-200 ease-in-out text-black`}
+                                            className={`absolute ${isFocused[0]} transition-all duration-200 ease-in-out text-black dark:text-white`}
                                         >
                                             Username
                                         </label>
@@ -170,7 +170,7 @@ export default function Page() {
                                     <div className="relative flex flex-col justify-center items-center gap-y-2">
                                         <label
                                             htmlFor={field.name}
-                                            className={`absolute ${isFocused[1]} transition-all duration-200 ease-in-out text-black`}
+                                            className={`absolute ${isFocused[1]} transition-all duration-200 ease-in-out text-black dark:text-white`}
                                         >
                                             Email
                                         </label>
@@ -228,7 +228,7 @@ export default function Page() {
                                 <div className="relative flex flex-col justify-center items-center gap-y-2">
                                     <label
                                         htmlFor={field.name}
-                                        className={`absolute ${isFocused[2]} transition-all duration-200 ease-in-out text-black`}
+                                        className={`absolute ${isFocused[2]} transition-all duration-200 ease-in-out text-black dark:text-white`}
                                     >
                                         Password
                                     </label>
