@@ -35,7 +35,7 @@ export function Nav() {
     const [isLoging, setIsLoging] = useState(false)
 
     const [styleNav, setStyleNav] = useState(
-        'bg-default rounded-b-3xl  w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
+        'bg-default   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
     )
 
     const { data, isLoading, isError } = useQuery({
@@ -58,12 +58,12 @@ export function Nav() {
 
             if (offset > 40) {
                 setStyleNav(
-                    'rounded-b-3xl  w-full h-10 bg-accent/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black fixed scroll transition-all delay-75 duration-150'
+                    '  w-full h-10 bg-accent/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black fixed scroll transition-all delay-75 duration-150'
                 )
                 console.log('scrolled')
             } else {
                 setStyleNav(
-                    'bg-default rounded-b-3xl  w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
+                    'bg-default   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
                 )
                 console.log('not scrolled')
             }
