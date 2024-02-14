@@ -55,19 +55,19 @@ const SearchButton = () => {
                 }}
                 onFocus={() => {
                     seticonStyle(
-                        'w-28 sm:w-32 md:w-44 h-8 bg-white border-2 border-primary px-2 placeholder cursor-text '
+                        'w-28 sm:w-52 lg:w-80 h-8 bg-white border-2 border-primary px-2 placeholder cursor-text '
                     )
                 }}
                 className={`${iconStyle}   text-black text-sm font-thin rounded-full flex justify-center items-center transition-all delay-75 duration-100 outline-none z-10 group-hover:block placeholder-opacity-40 `}
             />
             {search.length > 0 && (
-                <div className="top-[101%] absolute w-28 sm:w-32 md:w-44 max-h-44 bg-white text-secondary rounded-xl flex-col justify-center items-center border border-primary">
+                <div className="top-[101%] absolute w-28 sm:w-52 lg:w-80 max-h-44 bg-white text-secondary rounded-xl flex-col justify-start items-center border border-primary">
                     {isPending && <div>Loading...</div>}
                     {articles == null && <div>Not Found</div>}
                     {articles != null &&
                         articles.map((article: Article) => (
                             <Link
-                                className=" text-sm hover:bg-secondary text-secondary hover:text-primary p-1 rounded-xl w-full flex items-center justify-center transition-all delay-75 duration-100"
+                                className=" text-sm hover:bg-secondary text-secondary hover:text-primary p-1 rounded-xl w-full flex items-center justify-start transition-all delay-75 duration-100 px-1 py-2"
                                 key={article.id}
                                 href={`/articles/${article.id}`}
                             >

@@ -34,6 +34,10 @@ export default function Navbar() {
 export function Nav() {
     const [isLoging, setIsLoging] = useState(false)
 
+    const [styleNav, setStyleNav] = useState(
+        'bg-default rounded-b-3xl  w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
+    )
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ['verify'],
         queryFn: async () => {
@@ -47,6 +51,23 @@ export function Nav() {
     })
 
     useEffect(() => {
+        const nav = document.getElementById('navbar')
+
+        window.addEventListener('scroll', function () {
+            const offset = window.pageYOffset
+
+            if (offset > 40) {
+                setStyleNav(
+                    'rounded-b-3xl  w-full h-10 bg-accent/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black fixed scroll transition-all delay-75 duration-150'
+                )
+                console.log('scrolled')
+            } else {
+                setStyleNav(
+                    'bg-default rounded-b-3xl  w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative'
+                )
+                console.log('not scrolled')
+            }
+        })
         if (data) {
             setIsLoging(true)
         }
@@ -56,23 +77,19 @@ export function Nav() {
         'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
 
     return (
-        <nav
-            id="navbar"
-            className="bg-default rounded-b-3xl  w-full h-12 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black relative"
-        >
+        <nav id="navbar" className={`${styleNav}`}>
             <Link
                 href={'/home'}
-                className="p-1 ml-1 w-10 h-10 sm:w-14 sm:h-14 flex justify-center items-center  rounded-full z-20 cursor-pointer"
+                className="p-1 h-8 sm:h-4/5 flex justify-center items-center  rounded-full z-20 cursor-pointer"
             >
-                <Image
+                <img
                     src="/assets/logo.svg"
                     alt="WordSmiths"
-                    width={100}
-                    height={100}
+                    className="w-8 h-8 sm:w-10 sm:h-10"
                 />
             </Link>
-            <div className="flex items-center justify-around space-x-4 px-1">
-                <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary">
+            <div className="flex items-center justify-center space-x-4  px-1 h-4/5">
+                <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary ">
                     <SearchButton />
                 </div>
                 <div className="dropdown dropdown-end dropdown-hover">
@@ -88,7 +105,7 @@ export function Nav() {
                         {isLoging ? (
                             <li className="text-secondary flex justify-between items-center w-full rounded-xl">
                                 <Link href={'/profile'}>
-                                    <CgProfile className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                    <CgProfile className="h-4/5 w-4/5 sm:w-8 sm:h-8" />{' '}
                                     Profile
                                 </Link>
                             </li>
