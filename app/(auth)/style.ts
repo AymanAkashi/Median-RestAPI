@@ -1,5 +1,5 @@
 export const FormStyle =
-    'w-64 sm:w-72  border-4 border-secondary rounded-3xl bg-[#FAFAFA]/60 py-2 flex-col justify-center items-center font-medium h-full relative drop-shadow-[0_0_8px_#111111]'
+    'w-64 sm:w-72  border-4 border-secondary rounded-3xl bg-[#FAFAFA]/60 py-2 flex-col justify-center items-center font-medium h-full relative drop-shadow-[0_0_8px_#111111AA] z-20'
 
 export const inputStyle =
     'sm:w-52 h-8 w-48 border-b-4 border-solid outline-none bg-transparent cursor-text border-secondary focus:border-primary transition-all duration-200 ease-in-out text-black'

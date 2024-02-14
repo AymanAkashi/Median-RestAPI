@@ -138,7 +138,7 @@ export default function Page() {
                                             onFocus={(e) => {
                                                 e.preventDefault()
                                                 setIsFocused([
-                                                    '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                    '-top-5 left-1 text-sm bg-primary rounded-full px-1 transition-all duration-200 ease-in-out text-black',
                                                     isFocused[1],
                                                 ])
                                             }}
@@ -193,7 +193,7 @@ export default function Page() {
                                             e.preventDefault()
                                             setIsFocused([
                                                 isFocused[0],
-                                                '-top-5 left-1 text-sm bg-white rounded-full px-1 transition-all duration-200 ease-in-out text-black',
+                                                '-top-5 left-1 text-sm bg-primary rounded-full px-1 transition-all duration-200 ease-in-out text-black',
                                             ])
                                         }}
                                     />
