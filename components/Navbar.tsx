@@ -60,12 +60,12 @@ export function Nav() {
 
             if (offset > 40) {
                 setStyleNav(
-                    '  w-full h-10 bg-accent/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white fixed scroll transition-all delay-75 duration-150'
+                    '  w-full h-10 bg-secondary/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white fixed scroll transition-all delay-75 duration-150'
                 )
                 console.log('scrolled')
             } else {
                 setStyleNav(
-                    'bg-default dark:bg-default dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white relative'
+                    'bg-default  dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white relative'
                 )
                 console.log('not scrolled')
             }
@@ -140,6 +140,14 @@ export function Nav() {
                                 type="button"
                                 title="Dark Mode"
                                 onClick={() => {
+                                    localStorage.setItem(
+                                        'theme',
+                                        document.documentElement.classList.contains(
+                                            'dark'
+                                        )
+                                            ? 'light'
+                                            : 'dark'
+                                    )
                                     document.documentElement.classList.toggle(
                                         'dark'
                                     )
