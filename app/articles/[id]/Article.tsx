@@ -63,7 +63,7 @@ const Article = ({ id }: { id: number }) => {
                         </div>
                     </div>
                     <br className="my-4" />
-                    <p className=" text-pretty indent-12 text-base hyphens-auto  align-[40px]">
+                    <p className=" text-pretty indent-12 text-base hyphens-auto  align-[40px] mb-6">
                         {data.body}
                     </p>
                 </div>
