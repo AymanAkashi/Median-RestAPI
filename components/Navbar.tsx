@@ -32,7 +32,9 @@ export default function Navbar() {
 }
 
 export function Nav() {
-    const [isLoging, setIsLoging] = useState(false)
+    const [isLoging, setIsLoging] = useState(() => {
+        return false
+    })
 
     const [styleNav, setStyleNav] = useState(
         'bg-default dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg dark:shadow-[0_3px_10px_#ffffff99] z-10 text-black dark:text-white relative'

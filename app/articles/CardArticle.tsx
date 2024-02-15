@@ -7,7 +7,7 @@ const CardArticle = (Article: Article) => {
     console.log(Article)
     return (
         <Link
-            className="bg-accent/10 shadow-md  p-4 sm:p-10 m-2 sm:m-4 border-b-2 border-accent/15 rounded-2xl w-full  h-40 sm:w-96 sm:h-60 transition-all duration-150 hover:shadow-lg hover:border-accent/20 hover:scale-105 flex flex-col justify-between items-start "
+            className="bg-accent/10 shadow-md dark:shadow-[0_5px_10px_#AFAFAF88] dark:hover:border-b-2 dark:hover:border-white  p-4 sm:p-10 m-2 sm:m-4 border-b-2 border-accent/15 hover:border-accent dark:border-gray-100/50 rounded-2xl w-full  h-40 sm:w-96 sm:h-60 transition-all duration-150 hover:shadow-lg hover:border-accent/20 hover:scale-105 flex flex-col justify-between items-start "
             href={`/articles/${Article.id}`}
         >
             <h1 className="text-md sm:text-2xl font-bold ">{Article.title}</h1>
