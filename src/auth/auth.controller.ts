@@ -56,4 +56,11 @@ export class AuthController {
     res.clearCookie('access_token');
     return { message: 'success' };
   }
+
+  @Get('user')
+  @ApiOkResponse({ type: AuthEntity })
+  async user(@Req() req: Request) {
+    const token = req.cookies['access_token'];
+    return this.authService.verifyUser(token);
+  }
 }

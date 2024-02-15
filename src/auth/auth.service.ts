@@ -56,4 +56,13 @@ export class AuthService {
       throw new UnauthorizedException('Invalid Token');
     }
   }
+
+  async verifyUser(token: string) {
+    const data = await this.verifyToken(token);
+    const user = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+    if (user) return user;
+    throw new NotFoundException('User not found');
+  }
 }
