@@ -10,7 +10,13 @@ export class UserEntity implements User {
   id: number;
 
   @ApiProperty()
+  avatar: string;
+
+  @ApiProperty()
   createdAt: Date;
+
+  @ApiProperty()
+  countArticles: number;
 
   @ApiProperty()
   updatedAt: Date;
