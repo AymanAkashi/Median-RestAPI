@@ -23,6 +23,7 @@ const config: Config = {
                 default:
                     'linear-gradient(120deg, #fff 0%, #fff 50%, #afafaf 50%, #afafaf 100%)',
                 dark: 'linear-gradient(120deg, #121212 0%, #121212 50%, #414042 50%, #414042 100%)',
+                article: 'url("/assets/articles.svg")',
             },
             backgroundSize: {
                 'size-200': '200% 200%',

@@ -13,6 +13,7 @@ export type Article = {
     description: string
     body: string
     Likes: number
+    image: string
     Tags: string
     author: any
     createdAt: string
