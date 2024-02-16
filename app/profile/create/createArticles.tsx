@@ -4,6 +4,7 @@ import { useForm } from '@tanstack/react-form'
 import axios from 'axios'
 import { FieldApi } from '@tanstack/react-form'
 import { buttonStyle } from '@/app/(auth)/style'
+import DragAndDrop from './DragAndDrop'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -36,7 +37,9 @@ const CreateArticle = () => {
     })
 
     return (
-        <div className="min-w-[600px] flex justify-center items-center dark:bg-background_dark/70 bg-white/70 shadow-2xl dark:shadow-[0_5px_8px#AFAFAF888] rounded-2xl p-2 ">
+        <div className="min-w-[600px] flex flex-col justify-center items-center dark:bg-background_dark/70 bg-white/70 shadow-2xl dark:shadow-[0_5px_8px#AFAFAF888] rounded-2xl p-2 ">
+            <DragAndDrop user="exampleUser" />
+
             <form.Provider>
                 <form
                     onSubmit={(e) => {
@@ -46,47 +49,6 @@ const CreateArticle = () => {
                     }}
                     className="flex flex-col justify-center items-center space-y-4 w-full h-full "
                 >
-                    {/* Uploading image here */}
-                    <div className="w-full">
-                        <form.Field
-                            name="image"
-                            validators={{
-                                onBlur: ({ value }) => {
-                                    !value
-                                        ? setError('An image is required')
-                                        : undefined
-                                    return null
-                                },
-                                onChangeAsyncDebounceMs: 500,
-                            }}
-                            children={(field) => {
-                                // Avoid hasty abstractions. Render props are great!
-                                return (
-                                    <div className="flex flex-col justify-center items-center group space-y-2">
-                                        <label
-                                            htmlFor={field.name}
-                                            className="group-focus-within:bg-primary group-focus-within:scale-110 px-1 rounded-full transition-all duration-300 ease-in-out outline-none select-none dark:group-focus-within:bg-primary_dark dark:group-focus-within:text-background_dark group-focus-within:text-primary_dark "
-                                        >
-                                            Image
-                                        </label>
-                                        <input
-                                            id={field.name}
-                                            name={field.name}
-                                            value={field.state.value}
-                                            onBlur={field.handleBlur}
-                                            onChange={(e) =>
-                                                field.handleChange(
-                                                    e.target.value
-                                                )
-                                            }
-                                            className="w-4/5 border-b-4 border-solid bg-transparent outline-none cursor-text  px-3 py-1 border-secondary dark:border-accent group-focus-within:border-primary"
-                                        />
-                                        <FieldInfo field={field} />
-                                    </div>
-                                )
-                            }}
-                        />
-                    </div>
                     <div className="w-full ">
                         {/* A type-safe field component*/}
                         <form.Field
