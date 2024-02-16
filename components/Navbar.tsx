@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import SearchButton from './SearchButton'
 import { RiLogoutCircleRFill, RiLoginCircleFill } from 'react-icons/ri'
+import { IoMdAdd } from 'react-icons/io'
 import { CgDarkMode } from 'react-icons/cg'
 import { GoHomeFill } from 'react-icons/go'
 import { FaRegQuestionCircle } from 'react-icons/fa'
@@ -91,6 +92,15 @@ export function Nav() {
                 />
             </Link>
             <div className="flex items-center justify-center space-x-4  px-1 h-4/5">
+                {isLoging && (
+                    <Link
+                        href={'/profile/create'}
+                        title="create article"
+                        className=" h-8 w-8  flex justify-center items-center transition-all delay-75 duration-150 bg-primary text-secondary hover:bg-secondary hover:text-primary dark:bg-background_dark dark:text-primary_dark dark:hover:bg-primary_dark dark:hover:text-background_dark rounded-full "
+                    >
+                        <IoMdAdd className="h-full w-full" />
+                    </Link>
+                )}
                 <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary ">
                     <SearchButton />
                 </div>
