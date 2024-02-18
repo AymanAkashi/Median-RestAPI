@@ -15,8 +15,8 @@ model Article {
   title       String   @unique
   description String?
   image       String?
-  Likes      Int      @default(0)
-  Tags        String[]
+  likes      Int      @default(0)
+  tags        String[]
   body        String
   published   Boolean  @default(false)
   author      User?     @relation(fields: [authorId], references: [id])
