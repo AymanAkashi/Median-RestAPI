@@ -2,7 +2,7 @@
 
 import { PiDropboxLogo } from 'react-icons/pi'
 import { useRef, useState } from 'react'
-export default function DragAndDrop(props: { user: string }) {
+export default function DragAndDrop(props: { user: string; setFile: any }) {
     const user = props.user
     const [dragActive, setDragActive] = useState<boolean>(false)
     const inputRef = useRef<any>(null)
@@ -11,6 +11,7 @@ export default function DragAndDrop(props: { user: string }) {
     function handleChange(e: any) {
         e.preventDefault()
         console.log('File has been added')
+        props.setFile(e.target.files[0])
         if (e.target.files && e.target.files[0]) {
             console.log(e.target.files)
             for (let i = 0; i < e.target.files['length']; i++) {
@@ -32,6 +33,7 @@ export default function DragAndDrop(props: { user: string }) {
         e.stopPropagation()
         setDragActive(false)
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+            props.setFile(e.dataTransfer.files[0])
             for (let i = 0; i < e.dataTransfer.files['length']; i++) {
                 setFiles((prevState: any) => [
                     ...prevState,
@@ -75,8 +77,10 @@ export default function DragAndDrop(props: { user: string }) {
         <div className="flex items-center justify-center w-96">
             <form
                 className={`${
-                    dragActive ? 'bg-yellow-300 scale-110' : 'bg-accent/80'
-                }  p-4 w-1/2 rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center`}
+                    dragActive
+                        ? 'bg-primary dark:bg-primary_dark scale-110'
+                        : ' dark:bg-secondary bg-accent/80'
+                }  p-4 w-1/2 rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center transition-all all duration-300 delay-100`}
                 onDragEnter={handleDragEnter}
                 onSubmit={(e) => e.preventDefault()}
                 onDrop={handleDrop}
