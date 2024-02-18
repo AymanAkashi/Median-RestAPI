@@ -1,7 +1,8 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -22,6 +23,11 @@ export class CreateArticleDto {
   @ApiProperty({ required: false })
   description?: string;
 
+  @IsString({ each: true })
+  @IsOptional()
+  @ApiProperty({ required: false, type: [String] })
+  tags?: string[];
+
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
@@ -30,5 +36,19 @@ export class CreateArticleDto {
   @IsBoolean()
   @IsOptional()
   @ApiProperty({ required: false, default: false })
-  published?: boolean = false;
+  published?: boolean = true;
+
+  // image file
+  @ApiProperty({ type: 'string', format: 'binary' })
+  image: any;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  author: string;
+
+  @IsNumber()
+  @IsOptional()
+  @ApiProperty({ required: false })
+  authorId?: number;
 }

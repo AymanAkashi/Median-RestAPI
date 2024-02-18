@@ -62,7 +62,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
     });
-    if (user) return user;
+    if (user) return { ...user, password: undefined };
     throw new NotFoundException('User not found');
   }
 }

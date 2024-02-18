@@ -8,12 +8,14 @@ import {
   Delete,
   ParseIntPipe,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ApiTags, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { ArticleEntity } from './entities/article.entity';
+import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
 
 @Controller('articles')
 @ApiTags('articles')

@@ -33,10 +33,10 @@ export class ArticleEntity implements Article {
   updatedAt: Date;
 
   @ApiProperty()
-  Tags: string[];
+  tags: string[];
 
   @ApiProperty()
-  Likes: number;
+  likes: number;
 
   @ApiProperty()
   authorId: number | null;

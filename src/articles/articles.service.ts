@@ -8,7 +8,14 @@ export class ArticlesService {
   constructor(private prisma: PrismaService) {}
 
   create(createArticleDto: CreateArticleDto) {
-    return this.prisma.article.create({ data: createArticleDto });
+    const { authorId, ...rest } = createArticleDto;
+    const Image: File = createArticleDto.image;
+    return this.prisma.article.create({
+      data: {
+        ...rest,
+        author: { connect: { id: authorId } },
+      },
+    });
   }
 
   async findAll() {
@@ -31,9 +38,13 @@ export class ArticlesService {
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
+    const { authorId, ...rest } = updateArticleDto;
     return this.prisma.article.update({
       where: { id: id },
-      data: { ...updateArticleDto },
+      data: {
+        ...rest,
+        author: { connect: { id: authorId } },
+      },
     });
   }
 
@@ -43,7 +54,7 @@ export class ArticlesService {
 
   trending() {
     return this.prisma.article.findMany({
-      orderBy: { Likes: 'desc' },
+      orderBy: { likes: 'desc' },
       take: 5,
     });
   }
@@ -55,7 +66,7 @@ export class ArticlesService {
           { title: { contains: query } },
           { description: { contains: query } },
           { body: { contains: query } },
-          { Tags: { hasSome: query.split(' ') } },
+          { tags: { hasSome: query.split(' ') } },
         ],
       },
     });
