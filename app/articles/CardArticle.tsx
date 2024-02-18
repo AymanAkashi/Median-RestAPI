@@ -22,7 +22,9 @@ const CardArticle = (Article: Article) => {
                         {Article.Likes}
                     </p>
                 </div>
-                <span className="font-light">{Article.author?.name}</span>
+                <span className="font-light">
+                    {Article.author?.name || 'Unkown'}
+                </span>
             </div>
         </Link>
     )

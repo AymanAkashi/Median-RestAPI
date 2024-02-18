@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={` ${firaSans.className} bg-white text-black dark:bg-background_dark  dark:text-white`}
+                className={` ${firaSans.className} bg-white text-black dark:bg-background_dark  dark:text-white transition-all all duration-100 delay-75`}
             >
                 <Providers>
                     <Navbar />

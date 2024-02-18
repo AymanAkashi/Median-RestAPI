@@ -36,7 +36,7 @@ const Article = ({ id }: { id: number }) => {
                     <p className="text-xl font-normal skeleton bg-gray-500/5"></p>
                 </div>
             ) : (
-                <div className="mt-5 px-10">
+                <div className="mt-5 px-10 w-full">
                     <img
                         src={
                             'https://source.unsplash.com/random/1280x720?sig=1'
@@ -54,7 +54,9 @@ const Article = ({ id }: { id: number }) => {
                         {data.description}
                     </p>
                     <div className="flex justify-between items-center w-[90%] text-md bg-black/10 dark:bg-white/10 rounded-xl  px-1">
-                        <p className="">{data.author.name}</p>
+                        <p className="">
+                            {data.author ? data.author.name : 'Unkown'}
+                        </p>
                         <div className="">
                             {data.createdAt.slice(
                                 0,
@@ -63,7 +65,7 @@ const Article = ({ id }: { id: number }) => {
                         </div>
                     </div>
                     <br className="my-4" />
-                    <p className=" text-pretty indent-12 text-base   align-[40px] mb-6">
+                    <p className="indent-12 hyphens-auto overflow-hidden mb-6 max-w-4/5">
                         {data.body}
                     </p>
                 </div>
