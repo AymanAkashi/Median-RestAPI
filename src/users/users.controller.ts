@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,15 +22,32 @@ import {
 } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+import { BufferedFile } from 'src/minio-client/file.model';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly minioClientService: MinioClientService,
+  ) {}
 
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
-  async create(@Body() createUserDto: CreateUserDto) {
+  @UseInterceptors(FileInterceptor('avatar'))
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() image: BufferedFile,
+  ) {
+    console.log(image)
+    console.log(createUserDto)
+    let avatar = '';
+    if (image) {
+      avatar = (await this.minioClientService.upload(image, 'avatars'))?.url;
+    }
+    createUserDto.avatar = avatar;
     return new UserEntity(await this.usersService.create(createUserDto));
   }
 
@@ -56,7 +75,13 @@ export class UsersController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
+    @UploadedFile() file: BufferedFile,
   ) {
+    let avatar = '';
+    if (file) {
+      avatar = (await this.minioClientService.upload(file, 'avatars'))?.url;
+    }
+    updateUserDto.avatar = avatar;
     return new UserEntity(await this.usersService.update(id, updateUserDto));
   }
 

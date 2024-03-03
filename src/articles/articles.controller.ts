@@ -9,13 +9,14 @@ import {
   ParseIntPipe,
   NotFoundException,
   UseGuards,
+  UploadedFile,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { ApiTags, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { ArticleEntity } from './entities/article.entity';
-import { JwtAuthGuard } from 'src/auth/jwt.auth.guard';
+import { BufferedFile } from '../minio-client/file.model';
 
 @Controller('articles')
 @ApiTags('articles')
@@ -23,8 +24,16 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: ArticleEntity })
-  async create(@Body() createArticleDto: CreateArticleDto) {
+  // @ApiCreatedResponse({ type: ArticleEntity })
+  async create(
+    @Body() createArticleDto: CreateArticleDto,
+    @UploadedFile() file: BufferedFile,
+  ) {
+    let uploadedFile = null;
+    if (file) {
+      uploadedFile = await this.articlesService.uploadImage(file, 'articles');
+      createArticleDto.image = uploadedFile.url; 
+    }
     return new ArticleEntity(
       await this.articlesService.create(createArticleDto),
     );

@@ -1,4 +1,4 @@
-import { ApiOkResponse, ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -38,9 +38,9 @@ export class CreateArticleDto {
   @ApiProperty({ required: false, default: false })
   published?: boolean = true;
 
-  // image file
-  @ApiProperty({ type: 'string', format: 'binary' })
-  image: any;
+  @IsString()
+  @ApiProperty()
+  image: string;
 
   @IsString()
   @IsNotEmpty()

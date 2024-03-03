@@ -2,7 +2,7 @@ import { NestFactory, HttpAdapterHost, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common'
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
@@ -14,11 +14,11 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
-    .setTitle('Median')
-    .setDescription('The Median API description')
+    .setTitle('WordSmith')
+    .setDescription('The WordSmith API description')
     .setVersion('1.0')
     .addBearerAuth()
-    .addTag('median')
+    .addTag('WordSmith')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

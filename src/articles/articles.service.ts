@@ -2,17 +2,22 @@ import { Get, Injectable } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { BufferedFile } from 'src/minio-client/file.model';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
 
 @Injectable()
 export class ArticlesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private minioClientService: MinioClientService,
+  ) {}
 
   create(createArticleDto: CreateArticleDto) {
-    const { authorId, ...rest } = createArticleDto;
-    const Image: File = createArticleDto.image;
+    const { authorId, image, ...rest } = createArticleDto;
     return this.prisma.article.create({
       data: {
         ...rest,
+        image: image,
         author: { connect: { id: authorId } },
       },
     });
@@ -30,6 +35,18 @@ export class ArticlesService {
     return this.prisma.article.findMany({ where: { published: false } });
   }
 
+  async uploadImage(file: BufferedFile, bucketName: string) {
+    const uploadingImage = await this.minioClientService.upload(
+      file,
+      bucketName,
+    );
+    if (!uploadingImage) throw new Error('Image upload failed');
+    return {
+      url: uploadingImage,
+      message: 'Image uploaded successfully',
+    };
+  }
+
   findOne(id: number) {
     return this.prisma.article.findUnique({
       where: { id },
@@ -38,11 +55,12 @@ export class ArticlesService {
   }
 
   update(id: number, updateArticleDto: UpdateArticleDto) {
-    const { authorId, ...rest } = updateArticleDto;
+    const { authorId, image, ...rest } = updateArticleDto;
     return this.prisma.article.update({
       where: { id: id },
       data: {
         ...rest,
+        image: image,
         author: { connect: { id: authorId } },
       },
     });
