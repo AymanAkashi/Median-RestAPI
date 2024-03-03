@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
+import { MinioClientModule } from 'src/minio-client/minio-client.module';
 
 export const jwtSecret = 'zjP9h6ZI5LoSKCRj';
 
@@ -18,6 +19,7 @@ export const jwtSecret = 'zjP9h6ZI5LoSKCRj';
       signOptions: { expiresIn: '14d' },
     }),
     UsersModule,
+    MinioClientModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

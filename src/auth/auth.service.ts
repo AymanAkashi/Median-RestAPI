@@ -37,12 +37,18 @@ export class AuthService {
     name: string,
     email: string,
     password: string,
+    avatar: string,
   ): Promise<AuthEntity> {
     const user = await this.prisma.user.findUnique({ where: { email: email } });
 
     if (user) throw new ConflictException('conflite');
 
-    const newUser = await this.UserService.create({ email, password, name });
+    const newUser = await this.UserService.create({
+      email,
+      password,
+      name,
+      avatar,
+    });
 
     return {
       accessToken: this.jwtService.sign({ email: newUser.email }),
@@ -59,10 +65,16 @@ export class AuthService {
 
   async verifyUser(token: string) {
     const data = await this.verifyToken(token);
+    console.log('data: ', data);
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
     });
     if (user) return { ...user, password: undefined };
     throw new NotFoundException('User not found');
+  }
+
+  async validateEmail(email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email: email } });
+    if (user) throw new ConflictException('Email already in use');
   }
 }

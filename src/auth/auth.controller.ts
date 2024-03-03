@@ -2,14 +2,31 @@ import { AuthService } from './auth.service';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 import { AuthEntity } from './entity/auth.entity';
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UploadedFile,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { SignIn } from './dto/signin.dto';
 import { Response, Request } from 'express';
+import { BufferedFile } from 'src/minio-client/file.model';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly minioClientService: MinioClientService,
+  ) {}
 
   @Post('login')
   @ApiOkResponse({ type: AuthEntity })
@@ -29,11 +46,25 @@ export class AuthController {
 
   @Post('signup')
   @ApiOkResponse({ type: AuthEntity })
+  @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('avatar'))
   async signin(
-    @Body() { name, email, password }: SignIn,
-    @Res({ passthrough: true }) res: Response,
+    @Body() body: any,
+    @UploadedFile() image: BufferedFile,
+    @Res() res: Response,
   ) {
-    const data = await this.authService.signup(name, email, password);
+    console.log('backend:  ', body, image);
+    let avatar = '';
+    if (image) {
+      console.log("Heeere")
+      avatar = (await this.minioClientService.upload(image, 'user-profiles'))?.url;
+    }
+    const data = await this.authService.signup(
+      body.name,
+      body.email,
+      body.password,
+      avatar,
+    );
 
     res.cookie('access_token', data.accessToken, {
       httpOnly: true,
@@ -61,6 +92,14 @@ export class AuthController {
   @ApiOkResponse({ type: AuthEntity })
   async user(@Req() req: Request) {
     const token = req.cookies['access_token'];
+    console.log(token);
     return this.authService.verifyUser(token);
+  }
+
+  @Get('validate-email')
+  @ApiOkResponse({ type: Boolean })
+  async validateEmail(@Req() req: Request) {
+    const { email } = req.query;
+    return this.authService.validateEmail(email as string);
   }
 }
