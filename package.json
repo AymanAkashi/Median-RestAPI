@@ -1,35 +1,51 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@radix-ui/react-icons": "^1.3.0",
-    "@react-icons/all-files": "^4.1.0",
-    "@tanstack/react-form": "^0.13.3",
-    "@tanstack/react-query": "^5.17.19",
-    "axios": "^1.6.7",
-    "next": "14.1.0",
-    "next-themes": "^0.2.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-icons": "^5.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "daisyui": "^4.6.2",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5"
-  }
+    "name": "frontend",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev --turbo",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@nextui-org/react": "^2.2.9",
+        "@radix-ui/react-icons": "^1.3.0",
+        "@react-icons/all-files": "^4.1.0",
+        "@supabase/auth-helpers-nextjs": "^0.9.0",
+        "@supabase/auth-helpers-react": "^0.4.2",
+        "@supabase/auth-ui-react": "^0.4.7",
+        "@supabase/supabase-js": "^2.39.6",
+        "@tanstack/react-form": "^0.13.3",
+        "@tanstack/react-query": "^5.17.19",
+        "axios": "^1.6.7",
+        "fs": "^0.0.1-security",
+        "fs-extra": "^11.2.0",
+        "minio": "^7.1.3",
+        "next": "14.1.0",
+        "next-themes": "^0.2.1",
+        "react": "^18",
+        "react-dom": "^18",
+        "react-form-hook": "^0.0.1",
+        "react-hook-form": "^7.50.1",
+        "react-icons": "^5.0.1"
+    },
+    "devDependencies": {
+        "@types/minio": "^7.1.1",
+        "@types/node": "^20",
+        "@types/react": "^18",
+        "@types/react-dom": "^18",
+        "autoprefixer": "^10.0.1",
+        "daisyui": "^4.6.2",
+        "eslint": "^8",
+        "eslint-config-next": "14.1.0",
+        "postcss": "^8",
+        "tailwindcss": "^3.3.0",
+        "typescript": "^5"
+    },
+    "browser": {
+        "fs": false,
+        "os": false,
+        "path": false
+    }
 }

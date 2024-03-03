@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useForm } from '@tanstack/react-form'
@@ -6,7 +7,6 @@ import { MdCancel } from 'react-icons/md'
 import { FieldApi } from '@tanstack/react-form'
 import { buttonStyle } from '@/app/(auth)/style'
 import DragAndDrop from './DragAndDrop'
-import { headers } from 'next/headers'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -37,7 +37,9 @@ const CreateArticle = () => {
             console.log('data: ', data)
         },
         onError: (error, variables, context) => {
+            console.log('image: ', file)
             console.log('error: ', error)
+            setError(error.message)
         },
         onSuccess: (data, variables, context) => {
             console.log('Success: ', data)
@@ -54,9 +56,12 @@ const CreateArticle = () => {
 
     useEffect(() => {
         if (isSuccess) {
+            console.log('image: ', file)
+
             console.log('data: ', data)
         }
         if (isError) {
+            console.log('image: ', file)
             console.log('error: ', isError)
         }
     }, [isSuccess, isError])
@@ -71,11 +76,11 @@ const CreateArticle = () => {
             tags: [''],
             published: true,
         },
+
         onSubmit: async ({ value }) => {
-            console.log(JSON.stringify(value))
-            const article = mutate({
+            const article = await mutate({
                 ...value,
-                image: file,
+                image: '',
                 author: data.name,
                 authorId: data.id,
             })

@@ -1,4 +1,5 @@
 import React from 'react'
+import { createClient } from '@supabase/supabase-js'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
     return (
