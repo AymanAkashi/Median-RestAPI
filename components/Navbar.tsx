@@ -20,9 +20,7 @@ import axios from 'axios'
 export default function Navbar() {
     const queryClient = new QueryClient({
         defaultOptions: {
-            queries: {
-                refetchOnWindowFocus: true,
-            },
+            queries: {},
         },
     })
     return (
@@ -53,7 +51,16 @@ export function Nav() {
         },
     })
 
+    const { data: me, isLoading: meIsLoading } = useQuery({
+        queryKey: ['me'],
+        queryFn: async () => {
+            const { data } = await axios.get('/api/auth/user')
+            return data
+        },
+    })
+
     useEffect(() => {
+        console.log('me :', me)
         const nav = document.getElementById('navbar')
 
         window.addEventListener('scroll', function () {
@@ -81,110 +88,124 @@ export function Nav() {
 
     return (
         <nav id="navbar" className={`${styleNav}`}>
-            <Link
-                href={'/home'}
-                className="p-1 h-8 sm:h-4/5 flex justify-center items-center  rounded-full z-20 cursor-pointer text-secondary hover:text-primary dark:text-white dark:hover:text-primary"
-            >
-                <img
-                    src="/assets/logo.svg"
-                    alt="WordSmiths"
-                    className="w-8 h-8 sm:w-10 sm:h-10"
-                />
-            </Link>
-            <div className="flex items-center justify-center space-x-4  px-1 h-4/5">
-                {isLoging && (
+            {meIsLoading ? (
+                <div className="w-4/5 h-4/5 skeleton"> loading </div>
+            ) : (
+                <>
                     <Link
-                        href={'/profile/create'}
-                        title="create article"
-                        className=" h-8 w-8  flex justify-center items-center transition-all delay-75 duration-150 bg-primary text-secondary hover:bg-secondary hover:text-primary dark:bg-background_dark dark:text-primary_dark dark:hover:bg-primary_dark dark:hover:text-background_dark rounded-full "
+                        href={'/home'}
+                        className="p-1 h-8 sm:h-4/5 flex justify-center items-center  rounded-full z-20 cursor-pointer text-secondary hover:text-primary dark:text-white dark:hover:text-primary"
                     >
-                        <IoMdAdd className="h-full w-full" />
+                        <img
+                            src="/assets/logo.svg"
+                            alt="WordSmiths"
+                            className="w-8 h-8 sm:w-10 sm:h-10"
+                        />
                     </Link>
-                )}
-                <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary ">
-                    <SearchButton />
-                </div>
-                <div className="dropdown dropdown-end dropdown-hover">
-                    <div
-                        tabIndex={0}
-                        className="rounded-full bg-primary dark:hover:bg-primary_dark dark:bg-background_dark text-secondary hover:bg-secondary hover:text-primary dark:text-primary_dark dark:hover:text-background_dark text-center h-8 w-8 flex justify-center items-center"
-                        role="button"
-                        title="menu"
-                    >
-                        <CgProfile className="h-4/5 w-4/5" />
-                    </div>
-                    <ul className="dropdown-content z-[1] menu  shadow bg-white dark:bg-background_dark text-secondary dark:text-white dark:border w-28 sm:w-32 rounded-2xl">
-                        {isLoging ? (
-                            <li className=" flex justify-between items-center w-full rounded-xl">
-                                <Link href={'/profile'}>
-                                    <CgProfile className="h-4/5 w-4/5 sm:w-8 sm:h-8" />{' '}
-                                    Profile
-                                </Link>
-                            </li>
-                        ) : (
-                            <li className=" flex justify-between items-center w-full rounded-xl">
-                                <Link
-                                    href="/signup"
-                                    title="Join now"
-                                    className={` flex justify-between items-center w-full rounded-xl`}
-                                >
-                                    <RiLoginCircleFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
-                                    Join now
-                                </Link>
-                            </li>
-                        )}
-                        <li className=" flex justify-between items-center w-full rounded-xl">
-                            <Link href={'/'}>
-                                <GoHomeFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
-                                Home
-                            </Link>
-                        </li>
-                        <li className=" flex justify-between items-center w-full rounded-xl">
-                            <Link href={'/about'}>
-                                <FaRegQuestionCircle className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
-                                About
-                            </Link>
-                        </li>
-                        <li className=" flex justify-between items-center w-full rounded-xl">
-                            <button
-                                type="button"
-                                title="Dark Mode"
-                                onClick={() => {
-                                    localStorage.setItem(
-                                        'theme',
-                                        document.documentElement.classList.contains(
-                                            'dark'
-                                        )
-                                            ? 'light'
-                                            : 'dark'
-                                    )
-                                    document.documentElement.classList.toggle(
-                                        'dark'
-                                    )
-                                }}
-                            >
-                                <CgDarkMode className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
-                                Dark Mode
-                            </button>
-                        </li>
+                    <div className="flex items-center justify-center space-x-4  px-1 h-4/5">
                         {isLoging && (
-                            <li className=" flex justify-between items-center w-full rounded-xl">
-                                <button
-                                    title="logout"
-                                    type="button"
-                                    onClick={() => {
-                                        axios.post('/api/auth/logout')
-                                        window.location.href = '/'
-                                    }}
-                                >
-                                    <RiLogoutCircleRFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
-                                    <p>Logout</p>
-                                </button>
-                            </li>
+                            <Link
+                                href={'/profile/create'}
+                                title="create article"
+                                className=" h-8 w-8  flex justify-center items-center transition-all delay-75 duration-150 bg-primary text-secondary hover:bg-secondary hover:text-primary dark:bg-background_dark dark:text-primary_dark dark:hover:bg-primary_dark dark:hover:text-background_dark rounded-full "
+                            >
+                                <IoMdAdd className="h-full w-full" />
+                            </Link>
                         )}
-                    </ul>
-                </div>
-            </div>
+                        <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary ">
+                            <SearchButton />
+                        </div>
+                        <div className="dropdown dropdown-end dropdown-hover">
+                            <div
+                                tabIndex={0}
+                                className="rounded-full bg-primary dark:hover:bg-primary_dark dark:bg-background_dark text-secondary hover:bg-secondary hover:text-primary dark:text-primary_dark dark:hover:text-background_dark text-center h-8 w-8 flex justify-center items-center"
+                                role="button"
+                                title="menu"
+                            >
+                                {me === undefined ? (
+                                    <CgProfile className="h-4/5 w-4/5" />
+                                ) : (
+                                    <img
+                                        src={me.avatar}
+                                        alt="avatar"
+                                        className="h-4/5 w-4/5 object-cover rounded-full"
+                                    />
+                                )}
+                            </div>
+                            <ul className="dropdown-content z-[1] menu  shadow bg-white dark:bg-background_dark text-secondary dark:text-white dark:border w-28 sm:w-32 rounded-2xl">
+                                {isLoging ? (
+                                    <li className=" flex justify-between items-center w-full rounded-xl">
+                                        <Link href={'/profile'}>
+                                            <CgProfile className="h-4/5 w-4/5 sm:w-8 sm:h-8" />{' '}
+                                            Profile
+                                        </Link>
+                                    </li>
+                                ) : (
+                                    <li className=" flex justify-between items-center w-full rounded-xl">
+                                        <Link
+                                            href="/signup"
+                                            title="Join now"
+                                            className={` flex justify-between items-center w-full rounded-xl`}
+                                        >
+                                            <RiLoginCircleFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                            Join now
+                                        </Link>
+                                    </li>
+                                )}
+                                <li className=" flex justify-between items-center w-full rounded-xl">
+                                    <Link href={'/'}>
+                                        <GoHomeFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                        Home
+                                    </Link>
+                                </li>
+                                <li className=" flex justify-between items-center w-full rounded-xl">
+                                    <Link href={'/about'}>
+                                        <FaRegQuestionCircle className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                        About
+                                    </Link>
+                                </li>
+                                <li className=" flex justify-between items-center w-full rounded-xl">
+                                    <button
+                                        type="button"
+                                        title="Dark Mode"
+                                        onClick={() => {
+                                            localStorage.setItem(
+                                                'theme',
+                                                document.documentElement.classList.contains(
+                                                    'dark'
+                                                )
+                                                    ? 'light'
+                                                    : 'dark'
+                                            )
+                                            document.documentElement.classList.toggle(
+                                                'dark'
+                                            )
+                                        }}
+                                    >
+                                        <CgDarkMode className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                        Dark Mode
+                                    </button>
+                                </li>
+                                {isLoging && (
+                                    <li className=" flex justify-between items-center w-full rounded-xl">
+                                        <button
+                                            title="logout"
+                                            type="button"
+                                            onClick={() => {
+                                                axios.post('/api/auth/logout')
+                                                window.location.href = '/'
+                                            }}
+                                        >
+                                            <RiLogoutCircleRFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                            <p>Logout</p>
+                                        </button>
+                                    </li>
+                                )}
+                            </ul>
+                        </div>
+                    </div>
+                </>
+            )}
         </nav>
     )
 }

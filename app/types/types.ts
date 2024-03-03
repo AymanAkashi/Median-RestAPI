@@ -19,3 +19,10 @@ export type Article = {
     createdAt: string
     updatedAt: string
 }
+
+export type SignUp = {
+    name: string
+    email: string
+    password: string
+    avatar: FileList | null
+}
