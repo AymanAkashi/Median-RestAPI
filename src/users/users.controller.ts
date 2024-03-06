@@ -41,14 +41,26 @@ export class UsersController {
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() image: BufferedFile,
   ) {
-    console.log(image)
-    console.log(createUserDto)
+    console.log(image);
+    console.log(createUserDto);
     let avatar = '';
     if (image) {
       avatar = (await this.minioClientService.upload(image, 'avatars'))?.url;
     }
     createUserDto.avatar = avatar;
     return new UserEntity(await this.usersService.create(createUserDto));
+  }
+
+  @Post('me/avatar')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiCreatedResponse({ type: UserEntity })
+  @UseInterceptors(FileInterceptor('avatar'))
+  async uploadAvatar(@UploadedFile() file: BufferedFile) {
+    console.log('changing Avatar\n');
+    const avatar = (await this.minioClientService.upload(file, 'user-profiles'))
+      ?.url;
+    return new UserEntity(await this.usersService.updateAvatar(avatar));
   }
 
   @Get()
