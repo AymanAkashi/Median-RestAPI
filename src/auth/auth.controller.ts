@@ -56,8 +56,9 @@ export class AuthController {
     console.log('backend:  ', body, image);
     let avatar = '';
     if (image) {
-      console.log("Heeere")
-      avatar = (await this.minioClientService.upload(image, 'user-profiles'))?.url;
+      console.log('Heeere');
+      avatar = (await this.minioClientService.upload(image, 'user-profiles'))
+        ?.url;
     }
     const data = await this.authService.signup(
       body.name,
@@ -81,6 +82,22 @@ export class AuthController {
     return this.authService.verifyToken(token);
   }
 
+  @Post('verify')
+  @ApiOkResponse({ type: AuthEntity })
+  async verifyToken(
+    @Body()
+    {
+      token,
+    }: {
+      token: {
+        name: string;
+        value: string;
+      };
+    },
+  ) {
+    return this.authService.verifyToken(token.value);
+  }
+
   @Post('logout')
   @ApiOkResponse({ type: AuthEntity })
   async logout(@Res({ passthrough: true }) res: Response) {
@@ -92,7 +109,6 @@ export class AuthController {
   @ApiOkResponse({ type: AuthEntity })
   async user(@Req() req: Request) {
     const token = req.cookies['access_token'];
-    console.log(token);
     return this.authService.verifyUser(token);
   }
 
