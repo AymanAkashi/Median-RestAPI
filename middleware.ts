@@ -7,8 +7,19 @@ import axios from 'axios'
 export async function middleware(request: NextRequest) {
     // console.log(request.cookies.get('access_token'))
     // if request is to /profile/*
-    const data = await fetch('localhost:8080/api/auth/verify')
-        .then((res) => res.status)
+    const access_token = request.cookies.get('access_token')
+    const data = await fetch('http://localhost:8080/api/auth/verify', {
+        method: 'Post',
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        
+        body: JSON.stringify({
+            token: access_token,
+        }),
+    })
+        .then((res) => res.json())
         .catch((err) => {
             console.log(err)
             return false
