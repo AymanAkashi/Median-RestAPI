@@ -20,7 +20,9 @@ import axios from 'axios'
 export default function Navbar() {
     const queryClient = new QueryClient({
         defaultOptions: {
-            queries: {},
+            queries: {
+                staleTime: Infinity,
+            },
         },
     })
     return (
@@ -39,17 +41,21 @@ export function Nav() {
         'bg-default dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg dark:shadow-[0_3px_10px_#ffffff99] z-10 text-black dark:text-white relative'
     )
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['verify'],
-        queryFn: async () => {
-            const data = await axios
-                .get('/api/auth/verify')
-                .then((res) => setIsLoging(true))
-                .catch((err) => setIsLoging(false))
+    // const { data, isLoading, isError } = useQuery({
+    //     queryKey: ['verify'],
+    //     queryFn: async () => {
+    //         const data = await axios
+    //             .get('/api/auth/verify')
+    //             .then((res) => setIsLoging(true))
+    //             .catch((err) => setIsLoging(false))
 
-            console.log(data)
-        },
-    })
+    //         console.log(data)
+    //     },
+    //     cacheTime: 180 * 60 * 1000,
+    //     staleTime: 90 * 60 * 1000,
+    //     refetchOnMount: false,
+    //     refetchOnWindowFocus: false,
+    // })
 
     const { data: me, isLoading: meIsLoading } = useQuery({
         queryKey: ['me'],
@@ -57,6 +63,10 @@ export function Nav() {
             const { data } = await axios.get('/api/auth/user')
             return data
         },
+        cacheTime: 180 * 60 * 1000,
+        staleTime: 90 * 60 * 1000,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
     useEffect(() => {
@@ -68,20 +78,20 @@ export function Nav() {
 
             if (offset > 40) {
                 setStyleNav(
-                    '  w-full h-10 bg-secondary/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white fixed scroll transition-all delay-75 duration-150'
+                    '  w-full h-10 bg-secondary/70 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white fixed scroll transition-all delay-75 duration-150 -top-0'
                 )
                 console.log('scrolled')
             } else {
                 setStyleNav(
-                    'bg-default  dark:bg-dark   w-full h-10 sm:h-14 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white relative'
+                    'bg-default  dark:bg-dark  w-full h-10 sm:h-12 flex justify-between items-center  font-thin  shadow-lg z-10 text-black dark:text-white relative -top-0 transition-all delay-75 duration-150'
                 )
                 console.log('not scrolled')
             }
         })
-        if (data) {
+        if (me) {
             setIsLoging(true)
         }
-    }, [data])
+    }, [me])
 
     const itemsStyle =
         'mx-2 sm:mx-4 flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary hover:scale-105 text-md font-medium hover:font-bold sm:block hidden'
@@ -136,7 +146,7 @@ export function Nav() {
                                 {isLoging ? (
                                     <li className=" flex justify-between items-center w-full rounded-xl">
                                         <Link href={'/profile'}>
-                                            <CgProfile className="h-4/5 w-4/5 sm:w-8 sm:h-8" />{' '}
+                                            <CgProfile className=" h-6 w-6 sm:w-10 sm:h-10" />{' '}
                                             Profile
                                         </Link>
                                     </li>
@@ -147,20 +157,20 @@ export function Nav() {
                                             title="Join now"
                                             className={` flex justify-between items-center w-full rounded-xl`}
                                         >
-                                            <RiLoginCircleFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                            <RiLoginCircleFill className="h-6 w-6 sm:w-10 sm:h-10" />{' '}
                                             Join now
                                         </Link>
                                     </li>
                                 )}
                                 <li className=" flex justify-between items-center w-full rounded-xl">
                                     <Link href={'/'}>
-                                        <GoHomeFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                        <GoHomeFill className="h-6 w-6 sm:w-10 sm:h-10" />
                                         Home
                                     </Link>
                                 </li>
                                 <li className=" flex justify-between items-center w-full rounded-xl">
                                     <Link href={'/about'}>
-                                        <FaRegQuestionCircle className="h-4/5 w-4/5 sm:w-6 sm:h-6" />{' '}
+                                        <FaRegQuestionCircle className="h-6 w-6 sm:w-10 sm:h-10" />{' '}
                                         About
                                     </Link>
                                 </li>
@@ -182,7 +192,7 @@ export function Nav() {
                                             )
                                         }}
                                     >
-                                        <CgDarkMode className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                        <CgDarkMode className="h-6 w-6 sm:w-10 sm:h-10" />
                                         Dark Mode
                                     </button>
                                 </li>
@@ -196,7 +206,7 @@ export function Nav() {
                                                 window.location.href = '/'
                                             }}
                                         >
-                                            <RiLogoutCircleRFill className="h-4/5 w-4/5 sm:w-6 sm:h-6" />
+                                            <RiLogoutCircleRFill className="h-6 w-6 sm:w-10 sm:h-10" />
                                             <p>Logout</p>
                                         </button>
                                     </li>

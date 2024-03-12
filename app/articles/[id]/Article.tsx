@@ -1,7 +1,9 @@
+'use client'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
-import Image from 'next/image'
+import { Image } from '@nextui-org/react'
+import {Avatar} from "@nextui-org/react";
 
 const Article = ({ id }: { id: number }) => {
     const fetchArticle = async (id: number) => {
@@ -20,7 +22,7 @@ const Article = ({ id }: { id: number }) => {
         <div className="flex-col flex justify-center items-center max-w-[860px] m-auto drop-shadow-2xl text-black dark:text-white">
             {isLoading ? (
                 <div className="mt-5 w-full">
-                    <div className="skeleton w-[90%] h-96 rounded-xl bg-accent/20"></div>
+                    <div className=" w-[90%] h-96 rounded-xl"></div>
                     <p className="text-3xl font-bold w-full h-32 text-center m-auto rounded-xl border-secondary flex justify-start items-center"></p>
                     <p className="text-xl text-gray-800 indent-8 bg-white dark:bg-background_dark/50">
                         {'                    '}
@@ -37,7 +39,7 @@ const Article = ({ id }: { id: number }) => {
                 </div>
             ) : (
                 <div className="mt-5 px-10 w-full">
-                    <img
+                    <Image
                         src={
                             'https://source.unsplash.com/random/1280x720?sig=1'
                         }
@@ -53,7 +55,12 @@ const Article = ({ id }: { id: number }) => {
                     <p className="text-xl text-gray-800 dark:text-gray-200 indent-8">
                         {data.description}
                     </p>
+                    <br className="my-4" />
+                    <p className="indent-12 hyphens-auto overflow-hidden mb-6 max-w-4/5">
+                        {data.body}
+                    </p>
                     <div className="flex justify-between items-center w-[90%] text-md bg-black/10 dark:bg-white/10 rounded-xl  px-1">
+                        <Avatar src={data.author?.avatar} size="sm" />
                         <p className="">
                             {data.author ? data.author.name : 'Unkown'}
                         </p>
@@ -64,10 +71,6 @@ const Article = ({ id }: { id: number }) => {
                             )}
                         </div>
                     </div>
-                    <br className="my-4" />
-                    <p className="indent-12 hyphens-auto overflow-hidden mb-6 max-w-4/5">
-                        {data.body}
-                    </p>
                 </div>
             )}
         </div>

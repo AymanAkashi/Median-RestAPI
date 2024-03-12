@@ -30,13 +30,11 @@ const articles = () => {
                     ) : articles.length == 0 ? (
                         <p>No Articles here</p>
                     ) : (
-                        <ul>
+                        <div className="grid sm:grid-cols-1 md:grid-cols-2 grid-row-2 2xl:grid-cols-3 space-x-4">
                             {articles.map((article: any) => (
-                                <li key={article.id}>
-                                    <CardArticle {...article} />
-                                </li>
+                                <CardArticle {...article} id={article.id} />
                             ))}
-                        </ul>
+                        </div>
                     )}
                 </div>
             </div>

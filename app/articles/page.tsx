@@ -7,14 +7,17 @@ import {
 import axios from 'axios'
 import React from 'react'
 import Articles from './articles'
+import { NextUIProvider } from '@nextui-org/react'
 
 const page = () => {
     const queryClient = new QueryClient()
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <Articles />
-        </QueryClientProvider>
+        <NextUIProvider>
+            <QueryClientProvider client={queryClient}>
+                <Articles />
+            </QueryClientProvider>
+        </NextUIProvider>
     )
 }
 
