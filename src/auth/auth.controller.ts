@@ -9,6 +9,7 @@ import {
   Post,
   Req,
   Res,
+  UnauthorizedException,
   UploadedFile,
   UseInterceptors,
   UsePipes,
@@ -95,6 +96,7 @@ export class AuthController {
       };
     },
   ) {
+    if (!token) throw new UnauthorizedException("Token doesn't exist");
     return this.authService.verifyToken(token.value);
   }
 
