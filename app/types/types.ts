@@ -12,9 +12,9 @@ export type Article = {
     title: string
     description: string
     body: string
-    Likes: number
+    likes: number
     image: string
-    Tags: string
+    tags: string
     author: any
     createdAt: string
     updatedAt: string
