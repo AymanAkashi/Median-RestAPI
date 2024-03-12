@@ -5,7 +5,7 @@ import { useForm } from '@tanstack/react-form'
 import type { FieldApi } from '@tanstack/react-form'
 import Image from 'next/image'
 import axios from 'axios'
-import { useMutation } from '@tanstack/react-query'
+import { QueryClient, useMutation } from '@tanstack/react-query'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
@@ -29,6 +29,8 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 
 export default function Page() {
     const [status, setStatus] = React.useState(false)
+
+    const queryClient = new QueryClient()
     const form = useForm({
         defaultValues: {
             email: '',
@@ -36,12 +38,10 @@ export default function Page() {
         },
         onSubmit: async ({ value }) => {
             try {
-                const data = await axios
-                    .post('/api/auth/login', value)
-                    .then((res) => res.status)
-                    .catch((err) => console.log(err))
-                if (data === 201) {
+                const data = await axios.post('/api/auth/login', value)
+                if (data.status === 201) {
                     setStatus(true)
+                    queryClient.invalidateQueries({ queryKey: ['me'] })
                 }
             } catch (e) {
                 console.log(e)

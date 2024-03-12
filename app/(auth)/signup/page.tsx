@@ -12,12 +12,10 @@ import { FormStyle, inputStyle, buttonStyle, switchTextStyle } from '../style'
 import {
     UseFormRegister,
     UseFormResetField,
-    set,
     useForm,
 } from 'react-hook-form'
 
 import { SignUp } from '@/app/types/types'
-import { Concert_One } from 'next/font/google'
 
 const profile = {
     avatar: '',
