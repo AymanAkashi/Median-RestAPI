@@ -3,6 +3,10 @@ import { Inter, Nunito } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
 import Providers from './providers'
+import Image from 'next/image'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { SiCodeforces } from 'react-icons/si'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 const firaSans = Nunito({ subsets: ['latin'] })
@@ -20,11 +24,12 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={` ${firaSans.className} bg-white text-black dark:bg-background_dark  dark:text-white transition-all all duration-100 delay-75`}
+                className={` ${firaSans.className} bg-white text-black dark:bg-background_dark  dark:text-white transition-all all duration-100 delay-75 flex flex-col min-h-screen justify-between`}
             >
                 <Providers>
                     <Navbar />
                     {children}
+                    
                 </Providers>
             </body>
         </html>
