@@ -59,7 +59,7 @@ const CardArticle = (Article: Article) => {
                         translateZ={10}
                         translateX={20}
                         as="button"
-                        className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold hover:bg-primary hover:text-black"
+                        className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold hover:bg-primary hover:text-black dark:hover:bg-primary_dark dark:hover:text-black transition-all duration-150"
                     >
                         <Link href={`/articles/${Article.id}`}>Read More</Link>
                     </CardItem>
