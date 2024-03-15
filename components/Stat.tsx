@@ -8,11 +8,14 @@ interface StatProps {
     value: string
     discrption: string
     Icon: IconType
+    className?: string
 }
 
-const Stat = ({ title, value, Icon, discrption }: StatProps) => {
+const Stat = ({ title, value, Icon, discrption, className }: StatProps) => {
     return (
-        <div className="stat w-56  h-28 sm:w-auto sm:h-auto bg-white dark:bg-black">
+        <div
+            className={`stat w-auto px-4  h-28 sm:w-auto sm:h-auto bg-white dark:bg-black ${className}`}
+        >
             <div className="stat-figure text-secondary dark:text-white w-10 h-10 text-3xl">
                 <Icon />
             </div>
