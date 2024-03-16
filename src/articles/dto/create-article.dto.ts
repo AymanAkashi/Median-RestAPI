@@ -38,17 +38,19 @@ export class CreateArticleDto {
   @ApiProperty({ required: false, default: false })
   published?: boolean = true;
 
+  @IsOptional()
   @IsString()
-  @ApiProperty()
-  image: string;
+  @ApiProperty({ required: false, default: false })
+  image?: string;
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   @ApiProperty()
-  author: string;
+  author?: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  authorId?: number;
+  authorId?: string;
 }

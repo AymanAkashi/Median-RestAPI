@@ -10,32 +10,54 @@ import {
   NotFoundException,
   UseGuards,
   UploadedFile,
+  UsePipes,
+  ValidationPipe,
+  UseInterceptors,
+  Res,
+  Req,
 } from '@nestjs/common';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import { Response, Request } from 'express';
 import { ApiTags, ApiOkResponse, ApiCreatedResponse } from '@nestjs/swagger';
 import { ArticleEntity } from './entities/article.entity';
 import { BufferedFile } from '../minio-client/file.model';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('articles')
 @ApiTags('articles')
 export class ArticlesController {
-  constructor(private readonly articlesService: ArticlesService) {}
+  constructor(
+    private readonly articlesService: ArticlesService,
+    private readonly minioClientService: MinioClientService,
+  ) {}
 
   @Post()
-  // @ApiCreatedResponse({ type: ArticleEntity })
+  @ApiOkResponse({ type: ArticleEntity })
+  @UsePipes(new ValidationPipe())
+  @UseInterceptors(FileInterceptor('image'))
   async create(
-    @Body() createArticleDto: CreateArticleDto,
-    @UploadedFile() file: BufferedFile,
+    @Body() body: any,
+    @UploadedFile() image: BufferedFile,
+    @Res() res: Response,
   ) {
+    console.log(image, 'image');
     let uploadedFile = null;
-    if (file) {
-      uploadedFile = await this.articlesService.uploadImage(file, 'articles');
-      createArticleDto.image = uploadedFile.url; 
+    if (image) {
+      uploadedFile = await this.minioClientService.upload(image, 'articles');
+      body.image = uploadedFile?.url;
     }
+    const tagsArray = body.tags.split(' ');
+    const Published = body.published === 'true' ? true : false;
     return new ArticleEntity(
-      await this.articlesService.create(createArticleDto),
+      await this.articlesService.create({
+        ...body,
+        tags: tagsArray,
+        published: Published,
+      }),
     );
   }
 
@@ -66,16 +88,28 @@ export class ArticlesController {
   @ApiOkResponse({ type: ArticleEntity })
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateArticleDto: UpdateArticleDto,
+    @Body() updateArticleDto: any,
   ) {
+    const tagsArray = updateArticleDto.tags.split(' ');
+    const Published = updateArticleDto.published === 'true' ? true : false;
     return new ArticleEntity(
-      await this.articlesService.update(id, updateArticleDto),
+      await this.articlesService.update(id, {
+        ...updateArticleDto,
+        tags: tagsArray,
+        published: Published,
+      }),
     );
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ArticleEntity })
-  async remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
+    const token = req.cookies['access_token'];
+    const user = await this.articlesService.verifyUser(token);
+    const article = await this.articlesService.findOne(id);
+    if (user.id !== article.authorId ) {
+      throw new NotFoundException('You are not authorized to delete this article');
+    }
     return new ArticleEntity(await this.articlesService.remove(id));
   }
 
@@ -91,5 +125,18 @@ export class ArticlesController {
   async search(@Param('query') query: string) {
     const articles = await this.articlesService.search(query);
     return articles.map((article) => new ArticleEntity(article));
+  }
+
+  @Get(':id/articles')
+  @ApiCreatedResponse({ type: [ArticleEntity] })
+  async userArticles(@Param('id', ParseIntPipe) id: number) {
+    return this.articlesService.userArticles(id);
+  }
+
+  @Get(':id/statistics')
+  @ApiOkResponse({ type: [ArticleEntity] })
+  async userStatistics(@Param('id', ParseIntPipe) id: number) {
+    const articles = await this.articlesService.userStatistics(id);
+    return articles;
   }
 }

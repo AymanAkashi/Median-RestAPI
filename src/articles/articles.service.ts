@@ -1,24 +1,26 @@
-import { Get, Injectable } from '@nestjs/common';
+import { Get, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BufferedFile } from 'src/minio-client/file.model';
 import { MinioClientService } from 'src/minio-client/minio-client.service';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class ArticlesService {
+  jwtService: any;
   constructor(
     private prisma: PrismaService,
     private minioClientService: MinioClientService,
   ) {}
 
   create(createArticleDto: CreateArticleDto) {
-    const { authorId, image, ...rest } = createArticleDto;
+    console.log('createArticleDto: ', createArticleDto);
+    const { authorId, tags, published, ...rest } = createArticleDto;
     return this.prisma.article.create({
       data: {
         ...rest,
-        image: image,
-        author: { connect: { id: authorId } },
+        author: { connect: { id: +authorId } },
       },
     });
   }
@@ -61,9 +63,28 @@ export class ArticlesService {
       data: {
         ...rest,
         image: image,
-        author: { connect: { id: authorId } },
+        author: { connect: { id: +authorId } },
       },
     });
+  }
+
+  async verifyToken(token: string) {
+    try {
+      const data = await this.jwtService.verify(token);
+      return data;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid Token');
+    }
+  }
+
+  async verifyUser(token: string) {
+    const data = await this.verifyToken(token);
+    console.log('data: ', data);
+    const user = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+    if (user) return { ...user, password: undefined };
+    throw new NotFoundException('User not found');
   }
 
   remove(id: number) {
@@ -88,5 +109,37 @@ export class ArticlesService {
         ],
       },
     });
+  }
+
+  async userArticles(userId: number) {
+    const userArticles = await this.prisma.article.findMany({
+      where: { authorId: userId },
+    });
+    if (!userArticles) throw new NotFoundException('No articles found');
+    return userArticles;
+  }
+
+  async userStatistics(userId: number) {
+    const userArticles = await this.prisma.article.findMany({
+      where: { authorId: userId },
+      select: { likes: true },
+    });
+    const articleCount = await this.prisma.article.count({
+      where: { authorId: userId },
+    });
+    const likesSum = await this.prisma.article.aggregate({
+      where: { authorId: userId },
+      _sum: { likes: true },
+    });
+    const likesAvg = await this.prisma.article.aggregate({
+      where: { authorId: userId },
+      _avg: { likes: true },
+    });
+
+    return {
+      articleCount,
+      likesSum: likesSum._sum.likes,
+      likesAvg: likesAvg._avg.likes,
+    };
   }
 }
