@@ -47,7 +47,10 @@ export class ArticlesController {
     console.log(image, 'image');
     let uploadedFile = null;
     if (image) {
-      uploadedFile = await this.minioClientService.upload(image, 'articles');
+      uploadedFile = await this.minioClientService.upload(
+        image,
+        'user-profiles',
+      );
       body.image = uploadedFile?.url;
     }
     const tagsArray = body.tags.split(' ');
@@ -107,8 +110,10 @@ export class ArticlesController {
     const token = req.cookies['access_token'];
     const user = await this.articlesService.verifyUser(token);
     const article = await this.articlesService.findOne(id);
-    if (user.id !== article.authorId ) {
-      throw new NotFoundException('You are not authorized to delete this article');
+    if (user.id !== article.authorId) {
+      throw new NotFoundException(
+        'You are not authorized to delete this article',
+      );
     }
     return new ArticleEntity(await this.articlesService.remove(id));
   }
@@ -138,5 +143,14 @@ export class ArticlesController {
   async userStatistics(@Param('id', ParseIntPipe) id: number) {
     const articles = await this.articlesService.userStatistics(id);
     return articles;
+  }
+  @Get('me')
+  @ApiOkResponse({ type: [ArticleEntity] })
+  async myArticles(@Req() req: Request) {
+    const token = req.cookies['access_token'];
+    const user = await this.articlesService.verifyUser(token);
+    if (!user) throw new NotFoundException('User not found');
+    console.log(user.id, 'user.id');
+    return this.articlesService.myArticles(user.id);
   }
 }

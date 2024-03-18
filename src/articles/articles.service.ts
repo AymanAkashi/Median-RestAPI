@@ -111,6 +111,14 @@ export class ArticlesService {
     });
   }
 
+  async myArticles(userId: number) {
+    const articles = await this.prisma.article.findMany({
+      where: { authorId: userId },
+    });
+    if (!articles) throw new NotFoundException('No articles found');
+    return articles;
+  }
+
   async userArticles(userId: number) {
     const userArticles = await this.prisma.article.findMany({
       where: { authorId: userId },
