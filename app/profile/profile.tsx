@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { SignUp } from '../types/types'
+import { Article, SignUp } from '../types/types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { FaHeart } from 'react-icons/fa6'
 import { IoFlash } from 'react-icons/io5'
@@ -10,6 +10,8 @@ import { RiArticleFill } from 'react-icons/ri'
 import axios from 'axios'
 import { MdEdit } from 'react-icons/md'
 import Stat from '@/components/Stat'
+import Article from '../articles/[id]/Article'
+import CardArticle from '@/components/CardArticles'
 
 function UpdateAvatar({
     setImage,
@@ -92,6 +94,31 @@ type ProfileType = {
     avatar: File | null
 }
 
+const CardArticles = ({ id }: { id: number }) => {
+    console.log('id:', id)
+    const { data: articles, isLoading: loadingArticles } = useQuery({
+        queryKey: ['articles', 'me'],
+        queryFn: async () => {
+            const { data } = await axios.get(`/api/articles/${id}/articles`)
+            return data
+        },
+    })
+    useEffect(() => {
+        if (!loadingArticles) {
+            console.log('articles:', articles)
+        }
+    }, [loadingArticles])
+    return (
+        <div>
+            {loadingArticles && <p>Loading...</p>}
+            {articles &&
+                articles.map((article: Article) => {
+                    return <CardArticle article={article} />
+                })}
+        </div>
+    )
+}
+
 const profile = () => {
     const { data: me, isLoading } = useQuery({
         queryKey: ['me'],
@@ -101,16 +128,6 @@ const profile = () => {
         },
     })
 
-    const { data: articles, isLoading: loadingArticles } = useQuery({
-        queryKey: ['articles', 'me'],
-        queryFn: async () => {
-            const { data } = await axios.get(
-                `/api/articles/${me.id}/user-articles`
-            )
-            return data
-        },
-    })
-    console.log(articles)
     const { register, handleSubmit, resetField, getValues } = useForm({
         defaultValues: {
             avatar: me?.avatar
@@ -123,7 +140,9 @@ const profile = () => {
             'https://images.unsplash.com/placeholder-avatars/extra-large.jpg'
     )
     useEffect(() => {
-        if (!isLoading) setImage(me.avatar)
+        if (!isLoading) {
+            setImage(me.avatar)
+        }
     }, [isLoading])
 
     const submiting = async () => {}
@@ -136,14 +155,14 @@ const profile = () => {
                         <span className="w-full h-full absolute inset-x-0 left-0 right-0 top-0 rounded-2xl bg-white/10 blur-sm -z-0 flex justify-evenly items-center"></span>
                         <Avatar
                             src={me.avatar}
-                            className="w-48 h-48 absolute inset-x-0 flex justify-center items-center sm:-top-20 left-0 right-0 m-auto z-0 top-2"
+                            className="w-48 h-48 sm:absolute inset-x-0 flex justify-center items-center sm:-top-20 left-0 right-0 m-auto z-0 top-2"
                             isBordered
                         />
                         <div className="flex flex-col justify-center items-center z-10 bg-accent/80 px-2 rounded-xl">
                             <h1 className="text-3xl font-bold">{me.name}</h1>
                             <p className="text-lg">{me.email}</p>
                         </div>
-                        <div className="stats hidden sm:stats-horizontal sm:flex justify-center items-center  w-auto z-10 bg-transparent dark:bg-black text-secondary dark:text-white border-accent border dark:border-secondary mt-10">
+                        <div className="stats hidden sm:stats-horizontal sm:flex justify-center items-center  w-auto z-10 bg-transparent divide-x-2 divide-secondary dark:bg-black text-secondary dark:text-white border-accent border dark:border-secondary mt-10">
                             <Stat
                                 title="Total Articles"
                                 value="25"
@@ -163,7 +182,7 @@ const profile = () => {
                                 discrption="21% more than last month"
                             />
                         </div>
-                        <div className="sm:hidden  w-full flex flex-col justify-center items-center divide-y-2 divide-secondary mt-6">
+                        <div className="sm:hidden  w-full grid grid-cols-2 divide-secondary mt-6">
                             <Stat
                                 title="Total Articles"
                                 value="25"
@@ -181,10 +200,14 @@ const profile = () => {
                                 value="25"
                                 Icon={IoFlash}
                                 discrption="21% more than last month"
+                                className="col-span-2"
                             />
                         </div>
                     </div>
-                    <div className="w-full h-48 bg-accent"></div>
+                    <h1 className="text-3xl font-bold">My Articles</h1>
+                    <div className="flex justify-evenly items-center">
+                        <CardArticles id={me.id} />
+                    </div>
                 </>
             )}
         </div>

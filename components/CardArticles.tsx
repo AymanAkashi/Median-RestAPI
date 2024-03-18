@@ -1,13 +1,14 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Image } from '@nextui-org/react'
 import { Article } from '@/app/types/types'
-const CardArticles = (article: Article) => {
+const CardArticle = ({ article }: { article: Article }) => {
+    console.log(article, 'article')
     return (
         <Card className="py-4">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <h4 className="font-bold text-large">{article.title}</h4>
                 <p className="text-tiny uppercase font-bold">
-                    {article.description.slice(0, 20)}
+                    {article.description.slice(0, 20) + '...'}
                 </p>
                 <small className="text-default-500">{article.tags}</small>
             </CardHeader>
@@ -23,4 +24,4 @@ const CardArticles = (article: Article) => {
     )
 }
 
-export default CardArticles
+export default CardArticle
