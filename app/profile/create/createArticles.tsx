@@ -24,27 +24,32 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 }
 
 const CreateArticle = () => {
-    const { mutate } = useMutation({
-        mutationKey: ['createArticle'],
-        mutationFn: async (data: any) => {
-            const res = await axios.post(
-                'http://localhost:8080/api/articles',
-                data
-            )
-            return res.data
-        },
-        onMutate: async (data) => {
-            console.log('data: ', data)
-        },
-        onError: (error, variables, context) => {
-            console.log('image: ', file)
-            console.log('error: ', error)
-            setError(error.message)
-        },
-        onSuccess: (data, variables, context) => {
-            console.log('Success: ', data)
-        },
-    })
+    // const { mutate } = useMutation({
+    //     mutationKey: ['createArticle'],
+    //     mutationFn: async (data: any) => {
+    //         const res = await axios.post(
+    //             'http://localhost:8080/api/articles',
+    //             data,
+    //             {
+    //                 headers: {
+    //                     'Content-Type': 'multipart/form-data',
+    //                 },
+    //             }
+    //         )
+    //         return res.data
+    //     },
+    //     onMutate: async (data) => {
+    //         console.log('data: ', data)
+    //     },
+    //     onError: (error, variables, context) => {
+    //         console.log('image: ', file)
+    //         console.log('error: ', error)
+    //         setError(error.message)
+    //     },
+    //     onSuccess: (data, variables, context) => {
+    //         console.log('Success: ', data)
+    //     },
+    // })
 
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: ['author'],
@@ -78,13 +83,31 @@ const CreateArticle = () => {
         },
 
         onSubmit: async ({ value }) => {
-            const article = await mutate({
-                ...value,
-                image: '',
-                author: data.name,
-                authorId: data.id,
-            })
-            return article
+            const formData = new FormData()
+            formData.append('image', file)
+            formData.append('title', value.title)
+            formData.append('description', value.description)
+            formData.append('body', value.body)
+            formData.append('tags', value.tags.join(',')) // Convert array to string
+            formData.append('published', String(value.published)) // Convert boolean to string
+            formData.append('author', data?.name)
+            formData.append('authorId', String(data?.id))
+            console.log('formData: ', formData)
+            const res = await axios
+                .post('/api/articles', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .then((res) => {
+                    res.status === 200
+                        ? setError('Article created successfully')
+                        : setError(res.statusText)
+                })
+                .catch((error) => {
+                    setError(error.message)
+                    console.log('Error: ', error)
+                })
         },
     })
 
@@ -121,7 +144,7 @@ const CreateArticle = () => {
                             onSubmit={(e) => {
                                 e.preventDefault()
                                 e.stopPropagation()
-                                void form.handleSubmit()
+                                form.handleSubmit()
                             }}
                             className="flex flex-col justify-center items-center space-y-4 w-full h-full "
                         >
