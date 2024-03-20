@@ -61,7 +61,7 @@ const SearchButton = () => {
                 className={`${iconStyle}   text-black dark:text-white text-sm font-thin rounded-full flex justify-center items-center transition-all delay-75 duration-100 outline-none z-10 group-hover:block placeholder-opacity-40 `}
             />
             {search.length > 0 && (
-                <div className="top-[101%] absolute w-28 sm:w-52 lg:w-80 max-h-44 bg-white dark:bg-background_dark text-secondary rounded-xl flex-col justify-start items-center border border-primary">
+                <div className="top-[101%] absolute w-28 sm:w-52 lg:w-80 max-h-44 bg-white dark:bg-background_dark text-secondary rounded-xl flex-col justify-start items-center border border-primary overflow-auto whitespace-nowrap">
                     {isPending && <div>Loading...</div>}
                     {articles == null && <div>Not Found</div>}
                     {articles != null &&
