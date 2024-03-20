@@ -7,6 +7,7 @@ import { MdCancel } from 'react-icons/md'
 import { FieldApi } from '@tanstack/react-form'
 import { buttonStyle } from '@/app/(auth)/style'
 import DragAndDrop from './DragAndDrop'
+import { useRouter } from 'next/navigation'
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
     return (
@@ -72,6 +73,7 @@ const CreateArticle = () => {
     }, [isSuccess, isError])
 
     const [error, setError] = React.useState('')
+    const route = useRouter()
     const [file, setFile] = React.useState<any>(null)
     const form = useForm({
         defaultValues: {
@@ -101,7 +103,7 @@ const CreateArticle = () => {
                 })
                 .then((res) => {
                     res.status === 200
-                        ? setError('Article created successfully')
+                        ? route.replace(`/articles/${res.data.id}`)
                         : setError(res.statusText)
                 })
                 .catch((error) => {
