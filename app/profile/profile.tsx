@@ -10,8 +10,11 @@ import { RiArticleFill } from 'react-icons/ri'
 import axios from 'axios'
 import { MdEdit } from 'react-icons/md'
 import Stat from '@/components/Stat'
-import Article from '../articles/[id]/Article'
 import CardArticle from '@/components/CardArticles'
+import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
+import Articles from '../articles/[id]/page'
+import NoArticle from './noArticles'
+import Loading from '../loading';
 
 function UpdateAvatar({
     setImage,
@@ -94,8 +97,17 @@ type ProfileType = {
     avatar: File | null
 }
 
+type Item = {
+    quote: string
+    name: string
+    title: string
+    image: string
+    id: number
+}
+
 const CardArticles = ({ id }: { id: number }) => {
     console.log('id:', id)
+    const [items, setItems] = useState<Item[]>([])
     const { data: articles, isLoading: loadingArticles } = useQuery({
         queryKey: ['articles', 'me'],
         queryFn: async () => {
@@ -106,15 +118,34 @@ const CardArticles = ({ id }: { id: number }) => {
     useEffect(() => {
         if (!loadingArticles) {
             console.log('articles:', articles)
+            articles.map((article: Article) => {
+                setItems((items) => [
+                    ...items,
+                    {
+                        quote: article.title,
+                        name: article.author,
+                        title: article.description,
+                        image: article.image,
+                        id: article.id,
+                    },
+                ])
+            })
         }
     }, [loadingArticles])
     return (
-        <div>
-            {loadingArticles && <p>Loading...</p>}
-            {articles &&
-                articles.map((article: Article) => {
-                    return <CardArticle article={article} />
-                })}
+        <div className="h-[40rem] rounded-md flex antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative w-4/5">
+            {loadingArticles ? (
+                <Loading />
+            ) : items.length > 0 ? (
+                <InfiniteMovingCards
+                    items={items}
+                    direction="right"
+                    speed="normal"
+                    className="w-full h-full"
+                />
+            ) : (
+                <NoArticle />
+            )}
         </div>
     )
 }
@@ -205,9 +236,7 @@ const profile = () => {
                         </div>
                     </div>
                     <h1 className="text-3xl font-bold">My Articles</h1>
-                    <div className="flex justify-evenly items-center">
-                        <CardArticles id={me.id} />
-                    </div>
+                    <CardArticles id={me.id} />
                 </>
             )}
         </div>
