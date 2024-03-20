@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer'
 import React from 'react'
 
 const layout = ({
@@ -6,8 +7,9 @@ const layout = ({
     children: React.ReactNode
 }>) => {
     return (
-        <div className="bg-white dark:bg-background_dark min-h-[calc(100vh-3.5rem)] w-full">
+        <div className="bg-white dark:bg-background_dark min-h-[calc(100vh-3.5rem)] w-full flex flex-col justify-between items-center">
             {children}
+            <Footer />
         </div>
     )
 }

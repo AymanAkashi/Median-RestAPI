@@ -21,30 +21,6 @@ export default function Articles({ params }: { params: { id: string } }) {
         <NextUIProvider>
             <QueryClientProvider client={queryClient}>
                 <Article id={+params.id} />
-                <footer className="footer p-10 dark:bg-dark/50 bg-default/50 mt-6 ">
-                    <aside>
-                        <Image
-                            src="/assets/fullLogo.svg"
-                            width={100}
-                            height={100}
-                        ></Image>
-                        <p>Providing reliable tech since 2024</p>
-                    </aside>
-                    <nav>
-                        <h6 className="footer-title">Social</h6>
-                        <div className="grid grid-flow-col gap-4">
-                            <a>
-                                <FaGithub />
-                            </a>
-                            <a>
-                                <FaLinkedin />
-                            </a>
-                            <a>
-                                <SiCodeforces />
-                            </a>
-                        </div>
-                    </nav>
-                </footer>
             </QueryClientProvider>
         </NextUIProvider>
     )

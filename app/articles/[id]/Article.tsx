@@ -2,8 +2,9 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
-import { Image } from '@nextui-org/react'
-import {Avatar} from "@nextui-org/react";
+import { Button, Card, CardFooter, Image } from '@nextui-org/react'
+import { Avatar } from '@nextui-org/react'
+import Link from 'next/link'
 
 const Article = ({ id }: { id: number }) => {
     const fetchArticle = async (id: number) => {
@@ -49,9 +50,36 @@ const Article = ({ id }: { id: number }) => {
                         loading="lazy"
                         className="flex justify-center items-center rounded-xl object-cover shadow-2xl m-auto"
                     />
-                    <p className="text-3xl font-bold w-full h-32 text-center m-auto flex justify-start items-center">
+                    <div className="text-3xl font-bold w-auto h-auto text-center m-auto flex justify-between items-center">
                         {data?.title}
-                    </p>
+                        <Card
+                            isFooterBlurred
+                            radius="lg"
+                            className="border-none w-44 h-28 border border-black dark:border-white/20 shadow-small"
+                        >
+                            <Avatar
+                                alt="Woman listing to music"
+                                className="object-cover w-full h-full rounded-xl"
+                                src={data.author?.avatar}
+                            />
+                            <CardFooter className="justify-between before:bg-white/10 border-white/20 border-1 overflow-hidden py-1 absolute before:rounded-xl rounded-large bottom-1 w-[calc(100%_-_8px)] shadow-small ml-1 z-10">
+                                <p className="text-tiny text-white/80">
+                                    {data.author?.name || 'Unknown'}{' '}
+                                </p>
+                                <Link href={`/profile/${data.author?.name}`}>
+                                    <Button
+                                        className="text-tiny text-white bg-black/20"
+                                        variant="flat"
+                                        color="default"
+                                        radius="lg"
+                                        size="sm"
+                                    >
+                                        view
+                                    </Button>
+                                </Link>
+                            </CardFooter>
+                        </Card>
+                    </div>
                     <p className="text-xl text-gray-800 dark:text-gray-200 indent-8">
                         {data.description}
                     </p>
@@ -59,12 +87,8 @@ const Article = ({ id }: { id: number }) => {
                     <p className="indent-12 hyphens-auto overflow-hidden mb-6 max-w-4/5">
                         {data.body}
                     </p>
-                    <div className="flex justify-between items-center w-[90%] text-md bg-black/10 dark:bg-white/10 rounded-xl  px-1">
-                        <Avatar src={data.author?.avatar} size="sm" />
-                        <p className="">
-                            {data.author ? data.author.name : 'Unkown'}
-                        </p>
-                        <div className="">
+                    <div className="flex justify-end items-center w-[90%] text-md  rounded-xl  px-1">
+                        <div className="bg-black/10 dark:bg-white/10 px-2 rounded-xl">
                             {data.createdAt.slice(
                                 0,
                                 data.createdAt.indexOf('T')
