@@ -104,4 +104,10 @@ export class UsersController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return new UserEntity(await this.usersService.remove(id));
   }
+
+  @Get('profile/:id')
+  @ApiOkResponse({ type: UserEntity })
+  async findProfile(@Param('id') id: string) {
+    return new UserEntity(await this.usersService.findById(id));
+  }
 }

@@ -53,4 +53,8 @@ export class UsersService {
       data: { avatar },
     });
   }
+
+  findById(id: string) {
+    return this.prisma.user.findUnique({ where: { id: +id } });
+  }
 }
