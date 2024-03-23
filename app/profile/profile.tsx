@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Article, SignUp } from '../types/types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { FaHeart } from 'react-icons/fa6'
 import { IoFlash } from 'react-icons/io5'
@@ -10,11 +9,7 @@ import { RiArticleFill } from 'react-icons/ri'
 import axios from 'axios'
 import { MdEdit } from 'react-icons/md'
 import Stat from '@/components/Stat'
-import CardArticle from '@/components/CardArticles'
-import { InfiniteMovingCards } from '@/components/ui/infinite-moving-cards'
-import Articles from '../articles/[id]/page'
-import NoArticle from './noArticles'
-import Loading from '../loading';
+import ArticlesCardAnimation from './ArticlesCardAnimation'
 
 function UpdateAvatar({
     setImage,
@@ -88,68 +83,6 @@ function UpdateAvatar({
     )
 }
 
-type ProfileType = {
-    name: string
-    email: string
-    oldPassword: string
-    newPassword: string
-    confirmPassword: string
-    avatar: File | null
-}
-
-type Item = {
-    quote: string
-    name: string
-    title: string
-    image: string
-    id: number
-}
-
-const CardArticles = ({ id }: { id: number }) => {
-    console.log('id:', id)
-    const [items, setItems] = useState<Item[]>([])
-    const { data: articles, isLoading: loadingArticles } = useQuery({
-        queryKey: ['articles', 'me'],
-        queryFn: async () => {
-            const { data } = await axios.get(`/api/articles/${id}/articles`)
-            return data
-        },
-    })
-    useEffect(() => {
-        if (!loadingArticles) {
-            console.log('articles:', articles)
-            articles.map((article: Article) => {
-                setItems((items) => [
-                    ...items,
-                    {
-                        quote: article.title,
-                        name: article.author,
-                        title: article.description,
-                        image: article.image,
-                        id: article.id,
-                    },
-                ])
-            })
-        }
-    }, [loadingArticles])
-    return (
-        <div className="h-[40rem] rounded-md flex antialiased bg-white dark:bg-black dark:bg-grid-white/[0.05] items-center justify-center relative w-4/5">
-            {loadingArticles ? (
-                <Loading />
-            ) : items.length > 0 ? (
-                <InfiniteMovingCards
-                    items={items}
-                    direction="right"
-                    speed="normal"
-                    className="w-full h-full"
-                />
-            ) : (
-                <NoArticle />
-            )}
-        </div>
-    )
-}
-
 const profile = () => {
     const { data: me, isLoading } = useQuery({
         queryKey: ['me'],
@@ -193,7 +126,7 @@ const profile = () => {
                             <h1 className="text-3xl font-bold">{me.name}</h1>
                             <p className="text-lg">{me.email}</p>
                         </div>
-                        <div className="stats hidden sm:stats-horizontal sm:flex justify-center items-center  w-auto z-10 bg-transparent divide-x-2 divide-secondary dark:bg-black text-secondary dark:text-white border-accent border dark:border-secondary mt-10">
+                        <div className="stats hidden sm:stats-horizontal sm:flex justify-center items-center  w-auto z-10 bg-transparent divide-x-2 divide-secondary text-secondary dark:text-white border-accent border dark:border-secondary mt-10">
                             <Stat
                                 title="Total Articles"
                                 value="25"
@@ -236,7 +169,7 @@ const profile = () => {
                         </div>
                     </div>
                     <h1 className="text-3xl font-bold">My Articles</h1>
-                    <CardArticles id={me.id} />
+                    <ArticlesCardAnimation id={me.id} />
                 </>
             )}
         </div>
