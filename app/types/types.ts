@@ -26,3 +26,11 @@ export type SignUp = {
     password: string
     avatar: FileList | null
 }
+
+export type Item = {
+    quote: string
+    name: string
+    title: string
+    image: string
+    id: number
+}
