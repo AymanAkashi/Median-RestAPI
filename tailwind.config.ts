@@ -21,6 +21,7 @@ const config = {
         },
         extend: {
             animation: {
+                scroll: 'scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite',
                 first: 'moveVertical 30s ease infinite',
                 second: 'moveInCircle 20s reverse infinite',
                 third: 'moveInCircle 40s linear infinite',
@@ -30,6 +31,11 @@ const config = {
                 'accordion-up': 'accordion-up 0.2s ease-out',
             },
             keyframes: {
+                scroll: {
+                    to: {
+                        transform: 'translate(calc(-50% - 0.5rem))',
+                    },
+                },
                 moveHorizontal: {
                     '0%': {
                         transform: 'translateX(-50%) translateY(-10%)',
