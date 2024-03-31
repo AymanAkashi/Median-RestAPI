@@ -1,18 +1,23 @@
 'use client'
 import { TypewriterEffectSmooth } from '@/components/ui/typewriter-effect'
 import { Button } from '@nextui-org/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { BackgroundGradientAnimation } from '@/components/ui/background-gradient'
 import { Image } from '@nextui-org/react'
 import Loading from './loading'
 import { CgDarkMode } from 'react-icons/cg'
 import { FiSun, FiMoon } from 'react-icons/fi'
 import { useTheme } from 'next-themes'
+import { Parallax, ParallaxLayer } from '@react-spring/parallax'
+import Link from 'next/link'
+import { AuroraBackground } from '@/components/ui/aurora-background'
+import { motion } from 'framer-motion'
 
-export default function Page() {
+const Foo = () => {
     const [darkMode, setDarkMode] = useState(false)
     const [LoadPage, setLoadPage] = useState(true)
     const { setTheme, resolvedTheme } = useTheme()
+
     const words = [
         {
             text: 'Welcome',
@@ -28,7 +33,8 @@ export default function Page() {
         },
         {
             text: 'Wordsmiths.',
-            className: 'text-primary dark:text-primary_dark',
+            className:
+                'text-secondary dark:text-primary_dark sm:text-xl text-lg md:text-3xl xl:text-5xl font-bold',
         },
     ]
 
@@ -42,9 +48,18 @@ export default function Page() {
     }, [resolvedTheme])
     return (
         <>
-            <div className="flex justify-center items-center min-h-screen w-full relative">
-                <BackgroundGradientAnimation />
-                <div className="text-6xl font-bold absolute flex flex-col justify-center items-center z-10 animate-accordion-up">
+            <BackgroundGradientAnimation />
+            <Parallax
+                className="grid content-center min-h-screen w-full relative"
+                pages={3}
+            >
+                <ParallaxLayer
+                    offset={0}
+                    security="secure"
+                    speed={1}
+                    factor={1.2}
+                    className="text-6xl font-bold flex flex-col justify-center items-center  z-10 h-screen"
+                >
                     {LoadPage && (
                         <>
                             <Image
@@ -55,49 +70,50 @@ export default function Page() {
                             ></Image>
                             <TypewriterEffectSmooth
                                 words={words}
-                                cursorClassName="bg-primary dark:bg-primary_dark"
+                                cursorClassName="bg-secondary dark:bg-primary_dark"
                             />
-                            <div className="flex justify-between items-center w-72">
-                                <Button
-                                    variant="ghost"
-                                    color="primary"
-                                    size="lg"
-                                    className="text-white dark:text-background_dark hover:bg-primary_dark hover:text-white"
+                            <div className="flex justify-evenly items-center w-72">
+                                <Link
+                                    href="/signup"
+                                    className="dark:text-white text-background_dark hover:bg-primary_dark border-2 border-primary_dark bg-transparent font-light text-lg px-2 py-2 rounded-xl w-24 text-center hover:scale-110 transition-all duration-75 delay-100"
                                 >
                                     Join Now
-                                </Button>
-                                <Button
-                                    variant="shadow"
-                                    color="primary"
-                                    size="lg"
-                                    className="text-white dark:text-background_dark"
+                                </Link>
+                                <Link
+                                    href="/Login"
+                                    className="dark:text-white text-background_dark bg-primary_dark hover:bg-primary font-light text-lg px-2 py-2 rounded-xl w-24 text-center border-2 border-primary_dark hover:scale-110 transition-all duration-75 delay-100"
                                 >
-                                    Signup
-                                </Button>
+                                    Sign In
+                                </Link>
                             </div>
+                            <Link
+                                href={'/home'}
+                                className="dark:text-white text-background_dark font-light text-lg px-2 py-2 rounded-xl mt-2 hover:scale-110 text-center underline  hover:font-bold transition-all duration-75 delay-100"
+                            >
+                                Browser as Guest
+                            </Link>
                         </>
                     )}
-                </div>
-                <button
-                    className="absolute bottom-1 left-1 p-2 bg-white dark:bg-background_dark rounded-full shadow-md transition-colors duration-1000 delay-75 hover:shadow-lg dark:hover:shadow-lg animate-spin-slow"
-                    type="button"
-                    title="Dark Mode"
-                    onClick={() => {
-                        localStorage.setItem(
-                            'theme',
-                            darkMode ? 'light' : 'dark'
-                        )
-                        document.documentElement.classList.toggle('dark')
-                        setDarkMode((prev) => !prev)
-                    }}
+                </ParallaxLayer>
+                <ParallaxLayer
+                    offset={1}
+                    speed={0.5}
+                    className="text-6xl font-bold flex flex-col justify-center text-center  h-screen z-10"
                 >
-                    {darkMode ? (
-                        <FiMoon className="h-6 w-6 sm:w-10 sm:h-10" />
-                    ) : (
-                        <FiSun className="h-6 w-6 sm:w-10 sm:h-10" />
-                    )}
-                </button>
-            </div>
+                    Hello this is a testing of Parallax Scrolling
+                </ParallaxLayer>
+                <ParallaxLayer
+                    offset={2}
+                    speed={2}
+                    className="text-6xl font-bold flex flex-col justify-center text-center  h-screen z-10"
+                >
+                    Hey Again don't forget to check out the dark mode
+                </ParallaxLayer>
+            </Parallax>
         </>
     )
+}
+
+export default function Page() {
+    return <Foo />
 }
