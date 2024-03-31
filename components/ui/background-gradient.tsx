@@ -91,7 +91,7 @@ export const BackgroundGradientAnimation = ({
     return (
         <div
             className={cn(
-                'h-[calc(100vh-4rem)] w-full relative overflow-hidden top-0 left-0 bg-white dark:bg-background_dark dark:text-white transition-all all duration-100 delay-75 flex flex-col justify-between',
+                'h-screen w-full relative overflow-hidden top-0 left-0 bg-white dark:bg-background_dark dark:text-white transition-all all duration-100 delay-75 flex flex-col justify-between',
                 containerClassName
             )}
         >

@@ -125,7 +125,7 @@ export function Nav() {
                         <div className="flex justify-center items-center transition-all delay-75 duration-150 hover:text-primary ">
                             <SearchButton />
                         </div>
-                        <div className="dropdown dropdown-end dropdown-hover">
+                        <div className="dropdown dropdown-end">
                             <div
                                 tabIndex={0}
                                 className="rounded-full bg-primary dark:hover:bg-primary_dark dark:bg-background_dark text-secondary hover:bg-secondary hover:text-primary dark:text-primary_dark dark:hover:text-background_dark text-center h-8 w-8 flex justify-center items-center"
@@ -173,28 +173,6 @@ export function Nav() {
                                         <FaRegQuestionCircle className="h-6 w-6 sm:w-10 sm:h-10" />{' '}
                                         About
                                     </Link>
-                                </li>
-                                <li className=" flex justify-between items-center w-full rounded-xl">
-                                    <button
-                                        type="button"
-                                        title="Dark Mode"
-                                        onClick={() => {
-                                            localStorage.setItem(
-                                                'theme',
-                                                document.documentElement.classList.contains(
-                                                    'dark'
-                                                )
-                                                    ? 'light'
-                                                    : 'dark'
-                                            )
-                                            document.documentElement.classList.toggle(
-                                                'dark'
-                                            )
-                                        }}
-                                    >
-                                        <CgDarkMode className="h-6 w-6 sm:w-10 sm:h-10" />
-                                        Dark Mode
-                                    </button>
                                 </li>
                                 {isLoging && (
                                     <li className=" flex justify-between items-center w-full rounded-xl">

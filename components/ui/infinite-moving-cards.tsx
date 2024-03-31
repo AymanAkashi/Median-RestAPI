@@ -102,14 +102,14 @@ export const InfiniteMovingCards = ({
             >
                 {items.map((item, idx) => (
                     <li
-                        className="w-[350px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-slate-700 px-8 py-6 md:w-[450px] cursor-pointer hover:scale-105"
+                        className="w-[350px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-zinc-200 dark:border-neutral-600 px-8 py-6 md:w-[450px] cursor-pointer hover:scale-105 bg-gradient-to-t from-accent to-zinc-300 dark:from-neutral-900 dark:to-neutral-700"
                         onClick={() => {
                             route.replace(`/articles/${item.id}`)
                         }}
-                        style={{
-                            background:
-                                'linear-gradient(180deg, var(--slate-800), var(--slate-900)',
-                        }}
+                        // style={{
+                        //     background:
+                        //         'linear-gradient(180deg, var(--zinc-200), var(--zinc-600)',
+                        // }}
                         key={item.id}
                     >
                         <blockquote>
@@ -122,10 +122,10 @@ export const InfiniteMovingCards = ({
                             </span>
                             <div className="relative z-20 mt-6 flex flex-col justify-center items-start">
                                 <span className="flex flex-col gap-1">
-                                    <span className=" text-sm sm:text-lg leading-[1.6] text-accent dark:text-white font-normal">
+                                    <span className=" text-sm sm:text-lg leading-[1.6] text-secondary dark:text-white font-normal">
                                         {item.name}
                                     </span>
-                                    <span className=" text-sm sm:text-lg leading-[1.6] text-accent dark:text-white font-normal">
+                                    <span className=" text-sm sm:text-lg leading-[1.6] text-secondary dark:text-white font-normal">
                                         {item.title}
                                     </span>
                                 </span>
@@ -133,7 +133,7 @@ export const InfiniteMovingCards = ({
                                     <img
                                         src={item.image}
                                         alt="profile"
-                                        className="w-full"
+                                        className="w-full rounded-2xl"
                                     />
                                 </span>
                             </div>
