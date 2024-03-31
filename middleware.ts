@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
         headers: {
             'Content-Type': 'application/json',
         },
-        
+
         body: JSON.stringify({
             token: access_token,
         }),
@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
             console.log(err)
             return false
         })
-    console.log(data)
+    // console.log(data)
     const regex = /\/api\/profile\/.*/
     console.log(request.nextUrl.pathname)
     if (!data && request.nextUrl.pathname === '/profile') {

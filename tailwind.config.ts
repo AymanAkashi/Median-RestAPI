@@ -1,6 +1,21 @@
 import type { Config } from 'tailwindcss'
 const { nextui } = require('@nextui-org/react')
 
+const {
+    default: flattenColorPalette,
+} = require('tailwindcss/lib/util/flattenColorPalette')
+
+function addVariablesForColors({ addBase, theme }: any) {
+    let allColors = flattenColorPalette(theme('colors'))
+    let newVars = Object.fromEntries(
+        Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+    )
+
+    addBase({
+        ':root': newVars,
+    })
+}
+
 const config = {
     darkMode: ['class'],
     content: [
@@ -29,8 +44,17 @@ const config = {
                 fifth: 'moveInCircle 20s ease infinite',
                 'accordion-down': 'accordion-down 0.2s ease-out',
                 'accordion-up': 'accordion-up 0.2s ease-out',
+                aurora: 'aurora 60s linear infinite',
             },
             keyframes: {
+                aurora: {
+                    from: {
+                        backgroundPosition: '50% 50%, 50% 50%',
+                    },
+                    to: {
+                        backgroundPosition: '350% 50%, 350% 50%',
+                    },
+                },
                 scroll: {
                     to: {
                         transform: 'translate(calc(-50% - 0.5rem))',
@@ -125,7 +149,12 @@ const config = {
             },
         },
     },
-    plugins: [require('tailwindcss-animate'), require('daisyui'), nextui()],
+    plugins: [
+        require('tailwindcss-animate'),
+        require('daisyui'),
+        nextui(),
+        addVariablesForColors,
+    ],
 } satisfies Config
 
 export default config
