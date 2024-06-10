@@ -65,7 +65,6 @@ export class AuthService {
 
   async verifyUser(token: string) {
     const data = await this.verifyToken(token);
-    console.log('data: ', data);
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
     });

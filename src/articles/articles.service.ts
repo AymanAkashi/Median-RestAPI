@@ -1,4 +1,9 @@
-import { Get, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Get,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -79,10 +84,10 @@ export class ArticlesService {
 
   async verifyUser(token: string) {
     const data = await this.verifyToken(token);
-    console.log('data: ', data);
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
     });
+    console.log('user: ', user);
     if (user) return { ...user, password: undefined };
     throw new NotFoundException('User not found');
   }

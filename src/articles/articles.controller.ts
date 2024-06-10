@@ -107,15 +107,15 @@ export class ArticlesController {
   @Delete(':id')
   @ApiOkResponse({ type: ArticleEntity })
   async remove(@Param('id', ParseIntPipe) id: number, @Req() req: Request) {
-    const token = req.cookies['access_token'];
-    const user = await this.articlesService.verifyUser(token);
-    const article = await this.articlesService.findOne(id);
-    if (user.id !== article.authorId) {
-      throw new NotFoundException(
-        'You are not authorized to delete this article',
-      );
-    }
-    return new ArticleEntity(await this.articlesService.remove(id));
+      const token = req.cookies['access_token'];
+      const user = await this.articlesService.verifyUser(token);
+      const article = await this.articlesService.findOne(id);
+      if (user.id !== article.authorId) {
+        throw new NotFoundException(
+          'You are not authorized to delete this article',
+        );
+      }
+      return new ArticleEntity(await this.articlesService.remove(id));
   }
 
   @Get('trending')
@@ -144,10 +144,11 @@ export class ArticlesController {
     const articles = await this.articlesService.userStatistics(id);
     return articles;
   }
-  @Get('me')
+  @Get('me/profiles')
   @ApiOkResponse({ type: [ArticleEntity] })
   async myArticles(@Req() req: Request) {
     const token = req.cookies['access_token'];
+    console.log('user: ', token);
     const user = await this.articlesService.verifyUser(token);
     if (!user) throw new NotFoundException('User not found');
     console.log(user.id, 'user.id');
