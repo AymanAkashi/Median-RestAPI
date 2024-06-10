@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 import Lottie from 'lottie-react'
-import { useEffect, useRef } from 'react'
 import animationData from '@/public/lottiefiles/LoadingBook.json'
 
 const Loading = () => {
